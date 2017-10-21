@@ -22,15 +22,14 @@ public class AuthenticationServiceTest {
 	
 	@Test
 	public void testShouldNotAllowUserToHaveDuplicateUserName(){
-		String result = "";
-		authenticationService.addNewUser("Aman", "A123456");
-		result = authenticationService.addNewUser("Aman", "B1234");
+
+		authenticationService.addNewUser("Aman", "A123456fd");
+		String result = authenticationService.addNewUser("Aman", "B1234trw");;
 		assertEquals(result, RegistrationServiceDao.usernameAlreadyExistsMessage);
 	}
 	
 	@Test
-	public void testShouldNotAllowUserToSetPasswordWhichIsNotValid(){
-		
+	public void testShouldNotAllowUserToSetWeakPassword(){
 		String result = authenticationService.addNewUser("Aman", "123456");
 		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
 	}

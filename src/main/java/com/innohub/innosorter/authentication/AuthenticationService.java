@@ -11,8 +11,8 @@ public class AuthenticationService {
 		if(password.isEmpty()){
 			return nullPasswordMessage;
 		}
-
-		return registrationServiceDao.registerUser(username, password);
-
+		String result = registrationServiceDao.registerUser(username, password);
+		
+		return result;
 	}
 }
