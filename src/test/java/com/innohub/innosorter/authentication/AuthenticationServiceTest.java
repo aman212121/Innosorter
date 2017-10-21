@@ -1,14 +1,14 @@
 package com.innohub.innosorter.authentication;
 
+import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class AuthenticationServiceTest extends TestCase {
+public class AuthenticationServiceTest {
 
 	AuthenticationService authenticationService;
-	
-	@Override
+	@Before
 	public void setUp(){
 		authenticationService = new AuthenticationService();
 	}

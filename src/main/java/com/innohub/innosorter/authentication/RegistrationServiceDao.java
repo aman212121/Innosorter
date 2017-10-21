@@ -9,15 +9,6 @@ public class RegistrationServiceDao {
 	//return messages for creating a new user
 	protected static String usernameAlreadyExistsMessage = "Username Already Exists";
 	protected static String successMessage = "New User Successfully Added";
-	
-	public boolean usernameExists(String username) {
-		
-		if (username.equalsIgnoreCase("Aman"))
-		{
-			return true;
-		}
-		return false;
-	}
 
 	public String registerUser(String username, String password) {
 		
