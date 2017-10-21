@@ -1,8 +1,13 @@
 package com.innohub.innosorter.management;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import org.junit.Test;
+
+import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Post;
 
 public class IssueManagerTest {
 
