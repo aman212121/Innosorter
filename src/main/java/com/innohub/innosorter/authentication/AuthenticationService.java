@@ -2,13 +2,17 @@ package com.innohub.innosorter.authentication;
 
 public class AuthenticationService {
 
-	public Boolean addNewUser(String username, String password) {
+	protected String nullPasswordMessage = "Null Password";
+	protected String successMessage = "New User Successfully Added";
+	protected String usernameAlreadyExistsMessage = "Username Already Exists";
+	
+	public String addNewUser(String username, String password) {
 		
-		Boolean result = false;
 		//if the password is empty, return false
 		if(password.isEmpty()){
-			return result;
+			return nullPasswordMessage;
 		}
-		return true;
+		
+		return successMessage;
 	}
 }

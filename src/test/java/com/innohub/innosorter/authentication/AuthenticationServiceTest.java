@@ -16,17 +16,17 @@ public class AuthenticationServiceTest extends TestCase {
 	@Test
 	public void testShouldNotAllowUserToSetPasswordWhichIsNull(){
 		
-		Boolean result = authenticationService.addNewUser("newUsername", "");
-		assertFalse(result);
+		String result = authenticationService.addNewUser("newUsername", "");
+		assertEquals(result, authenticationService.nullPasswordMessage);
 		
 	}
 	
 	@Test
 	public void testShouldNotAllowUserToHaveDuplicateUserName(){
-		Boolean result;
+		String result = "";
 		authenticationService.addNewUser("Username", "123456");
-		result = authenticationService.addNewUser("Username", "123456");
+		 result = authenticationService.addNewUser("Username", "123456");
 		
-		assertFalse(result);
+		 assertEquals(result, authenticationService.usernameAlreadyExistsMessage);
 	}
 }
