@@ -19,12 +19,23 @@ public class LoginServiceTest {
 		
 		loginService= new LoginService();
 		String userName="";
-		String password="";
 		
 		loginService.loginUser(userName);
 		
 	}
 	
+	@Test
+	public void shouldNotLoginUserWithIncorrectPassword() {
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage("Password is invaled");
+		
+		loginService= new LoginService();
+		String password="";
+		
+		loginService.loginUser(password);
+		
+	}
 	
 
 
