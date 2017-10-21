@@ -3,6 +3,7 @@ package com.innohub.innosorter.management;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,6 +15,11 @@ import com.innohub.innosorter.entity.Post;
 public class IssueManagerTest {
 
     private IssueManager issueManager;
+
+    @Before
+    public void setUp(){
+        this.issueManager = new IssueManager();
+    }
 /*    @Test
     public void shouldShowAPostInClusterIfAdminAddsThatPostToThatCluster(){
         Cluster clusterOne = new Cluster();
