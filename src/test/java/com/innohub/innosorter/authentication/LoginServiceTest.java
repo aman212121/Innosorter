@@ -1,12 +1,17 @@
 package com.innohub.innosorter.authentication;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.innohub.innosorter.entity.User;
+
 public class LoginServiceTest {
 	
 	private LoginService loginService;
+	
 	
 	@Rule
 	public ExpectedException expected = ExpectedException.none();
@@ -24,5 +29,19 @@ public class LoginServiceTest {
 		loginService.loginUser(userName, password);
 		
 	}
+	
+	@Test
+	public void shouldUserSignOutSuccessfullyIfLoggedIn() {
+		
+		loginService= new LoginService();
+		User user=new User();
+
+		loginService.checkUserLoggedIn(user);
+		
+		
+		
+	}
+	
+	
 	
 }
