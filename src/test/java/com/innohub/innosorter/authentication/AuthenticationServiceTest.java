@@ -30,7 +30,21 @@ public class AuthenticationServiceTest {
 	
 	@Test
 	public void testShouldNotAllowUserToSetWeakPassword(){
-		String result = authenticationService.addNewUser("Aman", "123456");
+		//all digits
+		String result = authenticationService.addNewUser("Aman", "12345678");
 		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		//all lowercase
+		result = authenticationService.addNewUser("Aman", "abcdefgh");
+		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		//all uppercase
+		result = authenticationService.addNewUser("Aman", "ABCDEFGHI");
+		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		//not enough characters
+		result = authenticationService.addNewUser("Aman", "1234567");
+		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		//correct password
+		result = authenticationService.addNewUser("NotAman", "Abc12345");
+		assertEquals(result, RegistrationServiceDao.successMessage);
+		
 	}
 }
