@@ -29,7 +29,7 @@ public class IssueRepositoryServiceTest implements IssueRepositoryService {
 		issue.CurrentStatus("Assigned");
 	    issueRepository.storeIssue(issue);
 	    Boolean ifStoreIssuesWithoutContext = false;
-	    if(issue.) {
+	    if(!issue.contains(context)) {
 	    	ifStoreIssuesWithoutContext = true;
 	    }
 	    assertTrue(ifStoreIssuesWithoutContext);
@@ -40,8 +40,6 @@ public class IssueRepositoryServiceTest implements IssueRepositoryService {
 	{
 		Cluster issue = new Cluster();
 		issue.setUsersImpacted("");
-		issue.set
-
 	}
 	
 	@Test
