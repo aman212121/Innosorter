@@ -15,27 +15,17 @@ public class LoginServiceTest {
 	public void shouldNotLoginUserWithIncorrectUserName() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name is invaled");
+		expected.expectMessage("User Name or Password is invaled");
 		
 		loginService= new LoginService();
 		String userName="";
+		String password="";
 		
-		loginService.loginUser(userName);
+		loginService.loginUser(userName, password);
 		
 	}
 	
-	@Test
-	public void shouldNotLoginUserWithIncorrectPassword() {
-		
-		expected.expect(RuntimeException.class);
-		expected.expectMessage("Password is invaled");
-		
-		loginService= new LoginService();
-		String password="";
-		
-		loginService.loginUser(password);
-		
-	}
+	
 	
 
 
