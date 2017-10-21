@@ -3,7 +3,9 @@ package com.innohub.innosorter.authentication;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class AuthenticationServiceTest {
 
@@ -13,56 +15,86 @@ public class AuthenticationServiceTest {
 		authenticationService = new AuthenticationService();
 	}
 	
-	@Test
-	public void testShouldNotAllowUserToSetPasswordWhichIsNull(){
+	@Rule 
+	public ExpectedException expected = ExpectedException.none();
+	
+	@Test 
+	public void shouldThrowExceptionWhenPasswordIsNull(){
 		
-		String result = authenticationService.addNewUser("newUsername", "");
-		assertEquals( authenticationService.nullPasswordMessage, result);	
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(authenticationService.nullPasswordMessage);
+		
+		authenticationService.addNewUser("newUsername", null);
 	}
 	
-	@Test
-	public void testShouldNotAllowUserToHaveDuplicateUserName(){
+	@Test 
+	public void shouldThrowExceptionWhenPasswordIsEmpty(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(authenticationService.emptyPasswordMessage);
+		
+		authenticationService.addNewUser("newUsername", "");
+	}
 
+	@Test
+	public void shouldNotAllowUserToHaveDuplicateUserName(){
+		
 		authenticationService.addNewUser("Aman", "A123456fd");
-		String result = authenticationService.addNewUser("Aman", "B1234trw");;
-		assertEquals(RegistrationServiceDao.usernameAlreadyExistsMessage, result);
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(RegistrationServiceDao.usernameAlreadyExistsMessage);
+		
+		authenticationService.addNewUser("Aman", "B1234trw");;
 	}
 	
 	@Test
-	public void testShouldNotAllowUserToSetWeakPassword(){
-		//all digits
-		String result = authenticationService.addNewUser("Aman", "12345678");
-		assertEquals(RegistrationServiceDao.badPasswordMessage, result);
-		//all lowercase
-		result = authenticationService.addNewUser("Aman", "abcdefgh");
-		assertEquals( RegistrationServiceDao.badPasswordMessage, result);
-		//all uppercase
-		result = authenticationService.addNewUser("Aman", "ABCDEFGHI");
-		assertEquals(RegistrationServiceDao.badPasswordMessage, result);
-		//not enough characters
-		result = authenticationService.addNewUser("Aman", "1234567");
-		assertEquals( RegistrationServiceDao.badPasswordMessage, result);
+	public void shouldAllowUserToSetPassword(){
+		
 		//correct password
-		result = authenticationService.addNewUser("NotAman", "Abc12345");
+		String result = authenticationService.addNewUser("NotAman", "Abc12345");
 		assertEquals(RegistrationServiceDao.successMessage, result);
 	}
 	
 	@Test
-	public void testShouldNewPasswordBeDifferentFromOldPassword(){
+	public void shouldThrowExceptionOfNewPasswordBeDifferentFromOldPasswordWhenUpdatingPassword(){
 		
 		authenticationService.addNewUser("NotAman", "Abc12345");
 		
-		String result = authenticationService.updatePassword("NotAman", "Abc12345", "Abc12345");
-		assertEquals(authenticationService.unsuccessfulPasswordUpdateMessage, result);
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(authenticationService.unsuccessfulPasswordUpdateMessage);
 		
-		result = authenticationService.updatePassword("NotAman", "Abc12345", "Bcd23456");
+		authenticationService.updatePassword("NotAman", "Abc12345", "Abc12345");
+	}
+	
+	@Test
+	public void shouldSuccessfullyChangeOldPasswordToNewPasswordWhenUpdatingPassword(){
+		
+		authenticationService.addNewUser("NotAman", "Abc12345");
+		
+		String result = authenticationService.updatePassword("NotAman", "Abc12345", "Bcd23456");
 		assertEquals(authenticationService.successfulPasswordUpdateMessage, result);
+	}
+	
+	@Test
+	public void shouldThrowExceptionOfIncorrectPasswordWhenUpdatingPassword(){
 		
-		result = authenticationService.updatePassword("NotAman", "Abc12395", "Bcd23456");
-		assertEquals(authenticationService.invalidPasswordMessage, result);
+		authenticationService.addNewUser("NotAman", "Abc12345");
 		
-		result = authenticationService.updatePassword("Aman", "Abc12395", "Bcd23456");
-		assertEquals(authenticationService.invalidUserMessage, result);
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(authenticationService.invalidPasswordMessage);
+		
+		authenticationService.updatePassword("NotAman", "Abc12395", "Bcd23456");
+	}
+	
+	@Test
+	public void shouldThrowExceptionOfInvalidUserWhenUpdatingPassword(){
+		
+		authenticationService.addNewUser("NotAman", "Abc12345");
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(authenticationService.invalidUserMessage);
+		
+		authenticationService.updatePassword("Aman", "Abc12395", "Bcd23456");
 		
 	}
 }
