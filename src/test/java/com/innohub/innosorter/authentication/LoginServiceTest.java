@@ -1,6 +1,7 @@
 package com.innohub.innosorter.authentication;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class LoginServiceTest {
@@ -10,7 +11,7 @@ public class LoginServiceTest {
 	@Rule
 	public ExpectedException expected = ExpectedException.none();
 	
-	
+	@Test
 	public void shouldNotLoginUserWithIncorrectUserName() {
 		
 		expected.expect(RuntimeException.class);
