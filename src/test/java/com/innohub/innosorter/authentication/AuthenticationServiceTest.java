@@ -14,10 +14,19 @@ public class AuthenticationServiceTest extends TestCase {
 	}
 	
 	@Test
-	public void testshouldNotAllowUserToSetPasswordWhichIsNull(){
+	public void testShouldNotAllowUserToSetPasswordWhichIsNull(){
 		
 		Boolean result = authenticationService.addNewUser("newUsername", "");
 		assertFalse(result);
+		
 	}
 	
+	@Test
+	public void testShouldNotAllowUserToHaveDuplicateUserName(){
+		Boolean result;
+		authenticationService.addNewUser("Username", "123456");
+		result = authenticationService.addNewUser("Username", "123456");
+		
+		assertFalse(result);
+	}
 }
