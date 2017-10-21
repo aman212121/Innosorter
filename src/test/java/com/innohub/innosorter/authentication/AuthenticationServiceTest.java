@@ -7,10 +7,10 @@ import junit.framework.TestCase;
 public class AuthenticationServiceTest extends TestCase {
 
 	@Test
-	public void shouldNotAllowUserToSetPasswordWhichIsNull(){
+	public void testshouldNotAllowUserToSetPasswordWhichIsNull(){
 		
 		AuthenticationService authenticationService = new AuthenticationService();
-		Boolean result = authenticationService.addNewUser("newUsername", "newPassword");
-		assertTrue(result);
+		Boolean result = authenticationService.addNewUser("newUsername", "");
+		assertFalse(result);
 	}
 }
