@@ -17,7 +17,7 @@ public class AuthenticationServiceTest {
 	public void testShouldNotAllowUserToSetPasswordWhichIsNull(){
 		
 		String result = authenticationService.addNewUser("newUsername", "");
-		assertEquals(result, authenticationService.nullPasswordMessage);	
+		assertEquals( authenticationService.nullPasswordMessage, result);	
 	}
 	
 	@Test
@@ -25,35 +25,44 @@ public class AuthenticationServiceTest {
 
 		authenticationService.addNewUser("Aman", "A123456fd");
 		String result = authenticationService.addNewUser("Aman", "B1234trw");;
-		assertEquals(result, RegistrationServiceDao.usernameAlreadyExistsMessage);
+		assertEquals(RegistrationServiceDao.usernameAlreadyExistsMessage, result);
 	}
 	
 	@Test
 	public void testShouldNotAllowUserToSetWeakPassword(){
 		//all digits
 		String result = authenticationService.addNewUser("Aman", "12345678");
-		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		assertEquals(RegistrationServiceDao.badPasswordMessage, result);
 		//all lowercase
 		result = authenticationService.addNewUser("Aman", "abcdefgh");
-		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		assertEquals( RegistrationServiceDao.badPasswordMessage, result);
 		//all uppercase
 		result = authenticationService.addNewUser("Aman", "ABCDEFGHI");
-		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		assertEquals(RegistrationServiceDao.badPasswordMessage, result);
 		//not enough characters
 		result = authenticationService.addNewUser("Aman", "1234567");
-		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
+		assertEquals( RegistrationServiceDao.badPasswordMessage, result);
 		//correct password
 		result = authenticationService.addNewUser("NotAman", "Abc12345");
-		assertEquals(result, RegistrationServiceDao.successMessage);
+		assertEquals(RegistrationServiceDao.successMessage, result);
 	}
 	
 	@Test
 	public void testShouldNewPasswordBeDifferentFromOldPassword(){
 		
 		authenticationService.addNewUser("NotAman", "Abc12345");
-		String result = authenticationService.updatePassword("Aman", "Abc12345", "Abc12345");
-		assertEquals(result, authenticationService.unsuccessfulPasswordUpdateMessage);
-		result = authenticationService.updatePassword("Aman", "Abc12345", "Bcd23456");
-		assertEquals(result, authenticationService.successfulPasswordUpdateMessage);
+		
+		String result = authenticationService.updatePassword("NotAman", "Abc12345", "Abc12345");
+		assertEquals(authenticationService.unsuccessfulPasswordUpdateMessage, result);
+		
+		result = authenticationService.updatePassword("NotAman", "Abc12345", "Bcd23456");
+		assertEquals(authenticationService.successfulPasswordUpdateMessage, result);
+		
+		result = authenticationService.updatePassword("NotAman", "Abc12395", "Bcd23456");
+		assertEquals(authenticationService.invalidPasswordMessage, result);
+		
+		result = authenticationService.updatePassword("Aman", "Abc12395", "Bcd23456");
+		assertEquals(authenticationService.invalidUserMessage, result);
+		
 	}
 }

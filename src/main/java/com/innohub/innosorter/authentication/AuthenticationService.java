@@ -5,7 +5,9 @@ public class AuthenticationService {
 	protected String nullPasswordMessage = "Null Password";
 	RegistrationServiceDao registrationServiceDao = new RegistrationServiceDao();
 	protected static String unsuccessfulPasswordUpdateMessage = "Same as old password";
-	protected static String successfulPasswordUpdateMessage = "password has been updated";
+	protected static String successfulPasswordUpdateMessage = "Password has been updated";
+	protected static String invalidUserMessage = "Invalid Username";
+	protected static String invalidPasswordMessage = "Invalid Password";
 	
 	public String addNewUser(String username, String password) {
 		
@@ -18,12 +20,22 @@ public class AuthenticationService {
 
 	public String updatePassword(String username, String oldPassword, String newPassword) {
 		
-		if(oldPassword.equals(newPassword)){
-			return unsuccessfulPasswordUpdateMessage;
+		if(registrationServiceDao.systemUsers.containsKey(username)){
+			if(registrationServiceDao.systemUsers.get(username).equals(oldPassword)){
+				if(oldPassword.equals(newPassword)){
+				     return unsuccessfulPasswordUpdateMessage;
+				}
+				else {
+					registrationServiceDao.systemUsers.put(username, newPassword);
+					return successfulPasswordUpdateMessage;
+				}
+			}
+			else {
+				return invalidPasswordMessage;
+			}
 		}
 		else {
-			registrationServiceDao.systemUsers.put(username, newPassword);
-			return successfulPasswordUpdateMessage;
+			return invalidUserMessage;
 		}
 	}
 }
