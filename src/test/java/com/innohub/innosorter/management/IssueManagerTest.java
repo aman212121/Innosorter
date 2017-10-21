@@ -9,6 +9,7 @@ import org.junit.rules.ExpectedException;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.Post;
+import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueManagerTest {
 
@@ -29,7 +30,7 @@ public class IssueManagerTest {
         Post postOne = new Post();
 
         expected.expect(RuntimeException.class);
-        expected.expectMessage("User does not have enough priviledge to do this action.");
+        expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
 
         Developer developer = new Developer("DeveloperOne");
         issueManager.addPostToCluser(developer, clusterOne, postOne);
