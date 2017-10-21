@@ -3,8 +3,7 @@ package com.innohub.innosorter.authentication;
 public class AuthenticationService {
 
 	protected String nullPasswordMessage = "Null Password";
-	protected String successMessage = "New User Successfully Added";
-	protected String usernameAlreadyExistsMessage = "Username Already Exists";
+	RegistrationServiceDao registrationServiceDao = new RegistrationServiceDao();
 	
 	public String addNewUser(String username, String password) {
 		
@@ -12,7 +11,8 @@ public class AuthenticationService {
 		if(password.isEmpty()){
 			return nullPasswordMessage;
 		}
-		
-		return successMessage;
+
+		return registrationServiceDao.registerUser(username, password);
+
 	}
 }

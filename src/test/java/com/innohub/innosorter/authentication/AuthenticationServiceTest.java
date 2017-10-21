@@ -24,9 +24,8 @@ public class AuthenticationServiceTest extends TestCase {
 	@Test
 	public void testShouldNotAllowUserToHaveDuplicateUserName(){
 		String result = "";
-		authenticationService.addNewUser("Username", "123456");
-		 result = authenticationService.addNewUser("Username", "123456");
-		
-		 assertEquals(result, authenticationService.usernameAlreadyExistsMessage);
+		authenticationService.addNewUser("Aman", "123456");
+		result = authenticationService.addNewUser("Aman", "1234");
+		assertEquals(result, RegistrationServiceDao.usernameAlreadyExistsMessage);
 	}
 }
