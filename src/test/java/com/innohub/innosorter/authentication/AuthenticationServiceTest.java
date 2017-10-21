@@ -53,7 +53,7 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("NotAman", "Abc12345");
 		String result = authenticationService.updatePassword("Aman", "Abc12345", "Abc12345");
 		assertEquals(result, authenticationService.unsuccessfulPasswordUpdateMessage);
-		String result = authenticationService.updatePassword("Aman", "Abc12345", "Bcd23456");
-		assertEquals(result, authenticationService.succesfulPasswordUpdatesMessage);
+		result = authenticationService.updatePassword("Aman", "Abc12345", "Bcd23456");
+		assertEquals(result, authenticationService.successfulPasswordUpdateMessage);
 	}
 }
