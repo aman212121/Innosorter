@@ -45,6 +45,15 @@ public class AuthenticationServiceTest {
 		//correct password
 		result = authenticationService.addNewUser("NotAman", "Abc12345");
 		assertEquals(result, RegistrationServiceDao.successMessage);
+	}
+	
+	@Test
+	public void testShouldNewPasswordBeDifferentFromOldPassword(){
 		
+		authenticationService.addNewUser("NotAman", "Abc12345");
+		String result = authenticationService.updatePassword("Aman", "Abc12345", "Abc12345");
+		assertEquals(result, authenticationService.unsuccessfulPasswordUpdateMessage);
+		String result = authenticationService.updatePassword("Aman", "Abc12345", "Bcd23456");
+		assertEquals(result, authenticationService.succesfulPasswordUpdatesMessage);
 	}
 }
