@@ -17,15 +17,21 @@ public class AuthenticationServiceTest {
 	public void testShouldNotAllowUserToSetPasswordWhichIsNull(){
 		
 		String result = authenticationService.addNewUser("newUsername", "");
-		assertEquals(result, authenticationService.nullPasswordMessage);
-		
+		assertEquals(result, authenticationService.nullPasswordMessage);	
 	}
 	
 	@Test
 	public void testShouldNotAllowUserToHaveDuplicateUserName(){
 		String result = "";
-		authenticationService.addNewUser("Aman", "123456");
-		result = authenticationService.addNewUser("Aman", "1234");
+		authenticationService.addNewUser("Aman", "A123456");
+		result = authenticationService.addNewUser("Aman", "B1234");
 		assertEquals(result, RegistrationServiceDao.usernameAlreadyExistsMessage);
+	}
+	
+	@Test
+	public void testShouldNotAllowUserToSetPasswordWhichIsNotValid(){
+		
+		String result = authenticationService.addNewUser("Aman", "123456");
+		assertEquals(result, RegistrationServiceDao.badPasswordMessage);
 	}
 }
