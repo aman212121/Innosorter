@@ -12,7 +12,7 @@ public class LoginServiceTest {
 	public ExpectedException expected = ExpectedException.none();
 	
 	@Test
-	public void shouldNotLoginUserWithIncorrectUserName() {
+	public void shouldNotLoginUserWithIncorrectUserNamePassword() {
 		
 		expected.expect(RuntimeException.class);
 		expected.expectMessage("User Name or Password is invaled");
@@ -25,8 +25,4 @@ public class LoginServiceTest {
 		
 	}
 	
-	
-	
-
-
 }

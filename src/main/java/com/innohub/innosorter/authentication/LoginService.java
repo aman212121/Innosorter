@@ -6,7 +6,7 @@ public class LoginService {
 		
 		RegistrationServiceDao registrationServiceDao=new RegistrationServiceDao();
 		
-		boolean isunamepwdCurrect = registrationServiceDao.validateUserNamePassword(username);
+		boolean isunamepwdCurrect = registrationServiceDao.validateUserNamePassword(username,password);
 		
 	}
 	
