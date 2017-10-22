@@ -1,9 +1,10 @@
 package com.innohub.innosorter.management;
 
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.Mockito.verify;
 
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,15 +19,15 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueManagerTest {
 
+    @InjectMocks
     private IssueManager issueManager;
 
     @Mock
-    private IssueRepositoryService issueRepositoryService;
+    private IssueRepositoryService mockIssueRepositoryService;
 
     @Before
     public void setUp(){
         initMocks(this);
-        this.issueManager = new IssueManager();
     }
 
     @Rule
@@ -41,7 +42,7 @@ public class IssueManagerTest {
 
         issueManager.addPostToCluser(admin, clusterOne, postOne);
 
-//        verify()
+        verify(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
     }
 
     @Test
