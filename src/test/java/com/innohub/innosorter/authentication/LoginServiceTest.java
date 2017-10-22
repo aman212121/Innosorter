@@ -410,7 +410,7 @@ public class LoginServiceTest {
 		
 	}
 	
-	/////
+//	/////
 //	@Test
 //	public void shouldNotAllowAdminUserToUseFunctionalitiesAfterLoggedOut () {
 //		
@@ -420,7 +420,7 @@ public class LoginServiceTest {
 //		loginService= new LoginService();
 //		User usr= new User();
 //		loginService.loguot(usr);
-//		
+//		loginService.checkuserAddsPostToCluser();
 //		
 //		
 //	}
@@ -435,7 +435,7 @@ public class LoginServiceTest {
 //		loginService.loguot(usr);
 //		
 //	}
-	
+//	
 	
 	
 	@Test
