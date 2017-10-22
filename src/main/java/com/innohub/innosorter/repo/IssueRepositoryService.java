@@ -6,5 +6,5 @@ import com.innohub.innosorter.entity.User;
 public interface IssueRepositoryService {
 	void storeIssue(Cluster cluster);
 
-	void deleteCluster(User user, Cluster cluster);
+	boolean deleteCluster(User user, Cluster cluster);
 }

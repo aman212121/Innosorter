@@ -18,10 +18,13 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 		}
 	}
 
-	public void deleteCluster(User user, Cluster cluster) {
+	public boolean deleteCluster(User user, Cluster cluster) {
 		
 		if (!(user instanceof Administrator)){
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
-        }	
+        }
+		else {
+			return true;
+		}
 	}
 }
