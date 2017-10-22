@@ -35,4 +35,17 @@ public class IssueManagerTest {
         Developer developer = new Developer("DeveloperOne");
         issueManager.addPostToCluser(developer, clusterOne, postOne);
     }
+    
+    @Test
+    public void shouldNotAllowNonAdminUsersToRemoveAForumPostFromCluster(){
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+
+        Developer developer = new Developer("DeveloperOne");
+        issueManager.removePostFromCluster(developer, clusterOne, postOne);
+        
+    }
 }

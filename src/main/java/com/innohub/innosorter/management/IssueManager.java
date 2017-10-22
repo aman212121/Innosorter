@@ -15,4 +15,11 @@ public class IssueManager {
 
     }
 
+    public void removePostFromCluster(User user, Cluster clusterOne, Post postOne) {
+        if (!(user instanceof Administrator)){
+            throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+        }
+        
+    }
+
 }
