@@ -33,7 +33,7 @@ public class RegistrationServiceDaoTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
-		registrationServiceDao.registerUser("Aman", "12345678");
+		registrationServiceDao.registerUser("Aman", "12345678"  );
 	}
 	
 	@Test 
@@ -51,7 +51,7 @@ public class RegistrationServiceDaoTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
-		registrationServiceDao.registerUser("Aman", "abcdefgh");
+		registrationServiceDao.registerUser("Aman", "ABCDEFGHI");
 	}
 	
 	@Test 
@@ -63,4 +63,30 @@ public class RegistrationServiceDaoTest {
 		registrationServiceDao.registerUser("Aman", "1234567");
 	}
 	
+	@Test 
+	public void shouldThrowExcetionWhenUserTypeIsEmpty(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.EMPTY_USER_TYPE_MSG);
+		
+		registrationServiceDao.registerUser("Aman", "1234567Ab", "");
+	}
+	
+	@Test 
+	public void shouldThrowExcetionWhenUserTypeIsNull(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.NULL_USER_TYPE_MSG);
+		
+		registrationServiceDao.registerUser("Aman", "1234567Ab", null);
+	}
+	
+	@Test 
+	public void shouldThrowExcetionWhenUserTypeDoesNotExist(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.NULL_USER_TYPE_MSG);
+		
+		registrationServiceDao.registerUser("Aman", "1234567Ab", "not developer");
+	}
 }
