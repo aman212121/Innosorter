@@ -2,14 +2,12 @@ package com.innohub.innosorter.authentication;
 
 import java.util.HashMap;
 
+import com.innohub.innosorter.util.ApplicationConstants;
+
 public class RegistrationServiceDao {
 
 	//stores username and password of the system
 	protected HashMap<String, String> systemUsers = new HashMap<String, String>();
-	//return messages for creating a new user
-	public static String usernameAlreadyExistsMessage = "Username Already Exists";
-	public static String successMessage = "New User Successfully Added";
-	public static String badPasswordMessage = "Weak Password";
 
 	public String registerUser(String username, String password) {
 		int minLength =8;
@@ -18,7 +16,7 @@ public class RegistrationServiceDao {
 	    int lowerCharCount =0;
 	    
 		if(systemUsers.containsKey(username)){
-			throw new RuntimeException( usernameAlreadyExistsMessage);
+			throw new RuntimeException( ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
 		}
 		
 		if(password.length() >= minLength){
@@ -41,10 +39,10 @@ public class RegistrationServiceDao {
 			//if all the conditions are met, add user
 			if (digit > 0 && upCharCount >0 && lowerCharCount >0){
 				systemUsers.put(username, password);
-				return successMessage;
+				return ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG;
 			}
 		}
 		
-		throw new RuntimeException( badPasswordMessage);
+		throw new RuntimeException( ApplicationConstants.BAD_PASSWORD_MSG);
 	}
 }

@@ -7,6 +7,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.innohub.innosorter.util.ApplicationConstants;
+
 public class RegistrationServiceDaoTest {
 
 	RegistrationServiceDao registrationServiceDao;
@@ -22,14 +24,14 @@ public class RegistrationServiceDaoTest {
 	public void shouldSuccessfullyRegisterNewUser(){
 		
 		String result = registrationServiceDao.registerUser("NotAman", "Abc12345");
-		assertEquals(RegistrationServiceDao.successMessage, result);
+		assertEquals(ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG, result);
 	}
 	
 	@Test 
 	public void shouldThrowExceptionWhenPasswordContainsOnlyDigits(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(RegistrationServiceDao.badPasswordMessage);
+		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
 		registrationServiceDao.registerUser("Aman", "12345678");
 	}
@@ -38,7 +40,7 @@ public class RegistrationServiceDaoTest {
 	public void shouldThrowExceptionWhenPasswordContainsOnlyLowerCase(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(RegistrationServiceDao.badPasswordMessage);
+		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
 		registrationServiceDao.registerUser("Aman", "abcdefgh");
 	}
@@ -47,7 +49,7 @@ public class RegistrationServiceDaoTest {
 	public void shouldThrowExceptionWhenPasswordContainsOnlyUpperCase(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(RegistrationServiceDao.badPasswordMessage);
+		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
 		registrationServiceDao.registerUser("Aman", "abcdefgh");
 	}
@@ -56,7 +58,7 @@ public class RegistrationServiceDaoTest {
 	public void shouldThrowExceptionWhenPasswordLengthIsLowerThanMinimum(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(RegistrationServiceDao.badPasswordMessage);
+		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
 		registrationServiceDao.registerUser("Aman", "1234567");
 	}

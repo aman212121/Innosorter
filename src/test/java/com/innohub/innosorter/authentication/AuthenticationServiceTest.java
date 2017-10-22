@@ -7,6 +7,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.innohub.innosorter.util.ApplicationConstants;
+
 public class AuthenticationServiceTest {
 
 	AuthenticationService authenticationService;
@@ -22,7 +24,7 @@ public class AuthenticationServiceTest {
 	public void shouldThrowExceptionWhenPasswordIsNull(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(authenticationService.nullPasswordMessage);
+		expected.expectMessage(ApplicationConstants.NULL_PASSWORD_MSG);
 		
 		authenticationService.addNewUser("newUsername", null);
 	}
@@ -31,7 +33,7 @@ public class AuthenticationServiceTest {
 	public void shouldThrowExceptionWhenPasswordIsEmpty(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(authenticationService.emptyPasswordMessage);
+		expected.expectMessage(ApplicationConstants.EMPTY_PASSWORD_MSG);
 		
 		authenticationService.addNewUser("newUsername", "");
 	}
@@ -42,7 +44,7 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("Aman", "A123456fd");
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(RegistrationServiceDao.usernameAlreadyExistsMessage);
+		expected.expectMessage(ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
 		
 		authenticationService.addNewUser("Aman", "B1234trw");;
 	}
@@ -52,7 +54,7 @@ public class AuthenticationServiceTest {
 		
 		//correct password
 		String result = authenticationService.addNewUser("NotAman", "Abc12345");
-		assertEquals(RegistrationServiceDao.successMessage, result);
+		assertEquals(ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG, result);
 	}
 	
 	@Test
@@ -61,7 +63,7 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("NotAman", "Abc12345");
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(authenticationService.unsuccessfulPasswordUpdateMessage);
+		expected.expectMessage(ApplicationConstants.SAME_AS_PREVIOUS_PASSWORD_MSG);
 		
 		authenticationService.updatePassword("NotAman", "Abc12345", "Abc12345");
 	}
@@ -72,7 +74,7 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("NotAman", "Abc12345");
 		
 		String result = authenticationService.updatePassword("NotAman", "Abc12345", "Bcd23456");
-		assertEquals(authenticationService.successfulPasswordUpdateMessage, result);
+		assertEquals(ApplicationConstants.SUCCESSFULLY_UPDATED_PASSWORD_MSG, result);
 	}
 	
 	@Test
@@ -81,7 +83,7 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("NotAman", "Abc12345");
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(authenticationService.invalidPasswordMessage);
+		expected.expectMessage(ApplicationConstants.INVALID_PASSWORD_MSG);
 		
 		authenticationService.updatePassword("NotAman", "Abc12395", "Bcd23456");
 	}
@@ -92,7 +94,7 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("NotAman", "Abc12345");
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(authenticationService.invalidUserMessage);
+		expected.expectMessage(ApplicationConstants.INVALID_USERNAME_MSG);
 		
 		authenticationService.updatePassword("Aman", "Abc12395", "Bcd23456");
 		

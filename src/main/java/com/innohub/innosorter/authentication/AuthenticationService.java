@@ -1,26 +1,22 @@
 package com.innohub.innosorter.authentication;
 
+import com.innohub.innosorter.util.ApplicationConstants;
+
 public class AuthenticationService {
 
-	protected String emptyPasswordMessage = "Empty Password";
-	protected String nullPasswordMessage = "Null Password";
 	RegistrationServiceDao registrationServiceDao = new RegistrationServiceDao();
-	protected String unsuccessfulPasswordUpdateMessage = "Same as old password";
-	protected String successfulPasswordUpdateMessage = "Password has been updated";
-	protected String invalidUserMessage = "Invalid Username";
-	protected String invalidPasswordMessage = "Invalid Password";
 	
 	public String addNewUser(String username, String password) {
 		
 		if(password!= null){
 			//if the password is an empty string
 			if(password.isEmpty()){
-				throw new RuntimeException(emptyPasswordMessage);
+				throw new RuntimeException(ApplicationConstants.EMPTY_PASSWORD_MSG);
 			}
 			return registrationServiceDao.registerUser(username, password);
 		}
 		else {
-			throw new RuntimeException(nullPasswordMessage);
+			throw new RuntimeException(ApplicationConstants.NULL_PASSWORD_MSG);
 		}
 	}
 
@@ -29,19 +25,19 @@ public class AuthenticationService {
 		if(registrationServiceDao.systemUsers.containsKey(username)){
 			if(registrationServiceDao.systemUsers.get(username).equals(oldPassword)){
 				if(oldPassword.equals(newPassword)){
-					throw new RuntimeException(unsuccessfulPasswordUpdateMessage);
+					throw new RuntimeException(ApplicationConstants.SAME_AS_PREVIOUS_PASSWORD_MSG);
 				}
 				else {
 					registrationServiceDao.systemUsers.put(username, newPassword);
-					return successfulPasswordUpdateMessage;
+					return ApplicationConstants.SUCCESSFULLY_UPDATED_PASSWORD_MSG;
 				}
 			}
 			else {
-				throw new RuntimeException(invalidPasswordMessage);
+				throw new RuntimeException(ApplicationConstants.INVALID_PASSWORD_MSG);
 			}
 		}
 		else {
-			throw new RuntimeException(invalidUserMessage);
+			throw new RuntimeException(ApplicationConstants.INVALID_USERNAME_MSG);
 		}
 	}
 }
