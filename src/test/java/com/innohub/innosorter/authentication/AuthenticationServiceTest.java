@@ -38,6 +38,42 @@ public class AuthenticationServiceTest {
 		authenticationService.addNewUser("newUsername", "");
 	}
 
+	@Test 
+	public void shouldThrowExceptionWhenUsernameIsNull(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.NULL_USERNAME_MSG);
+		
+		authenticationService.addNewUser(null, "A1234567hg");
+	}
+	
+	@Test 
+	public void shouldThrowExceptionWhenUsernameIsEmpty(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.EMPTY_USERNAME_MSG);
+		
+		authenticationService.addNewUser("", "A1234567hg");
+	}
+	
+	@Test 
+	public void shouldThrowExceptionWhenUsernameAndPasswordIsNull(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.NULL_USERNAME_AND_PASSWORD_MSG);
+		
+		authenticationService.addNewUser(null, null);
+	}
+	
+	@Test 
+	public void shouldThrowExceptionWhenUsernameAndPasswordIsEmpty(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.EMPTY_USERNAME_AND_PASSWORD_MSG);
+		
+		authenticationService.addNewUser("", "");
+	}
+	
 	@Test
 	public void shouldNotAllowUserToHaveDuplicateUserName(){
 		
