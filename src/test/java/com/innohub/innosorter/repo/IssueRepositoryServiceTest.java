@@ -16,10 +16,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+
 public class IssueRepositoryServiceTest {
 
 	private IssueRepositoryService issueRepository;
-
+    
 	@Before
 	public void SetUp() {
 		issueRepository = new IssueRepositoryServiceImpl();
@@ -99,4 +100,18 @@ public class IssueRepositoryServiceTest {
 		assertTrue(issueRepository.deleteCluster(admin, cluster));
 	}
 	
+	@Test
+	public void shouldNotAllowAdminUserToDeleteNonexistingCluster(){
+		
+		expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXIST_MSG);
+        
+		Cluster cluster = new Cluster();
+        Administrator admin = new Administrator("Admin");
+        
+        Mockito.doNothing().doThrow(new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_EXIST_MSG))
+        .when(mockIssueRepositoryService).deleteCluster(admin, cluster);
+        
+        issueRepository.deleteCluster(admin, cluster);
+	}
 }
