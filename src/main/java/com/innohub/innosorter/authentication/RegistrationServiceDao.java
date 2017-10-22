@@ -48,8 +48,13 @@ public class RegistrationServiceDao {
 		throw new RuntimeException( badPasswordMessage);
 	}
 	
-	public boolean validateUserNamePassword(String username,String password) {
+	public boolean validateUserNamePassword(String username,String password,String role) {
 		  throw new RuntimeException("User Name or Password is invaled");
+	}
+
+	public String getUserRole() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
