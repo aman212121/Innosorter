@@ -94,7 +94,7 @@ public class RegistrationServiceDaoTest {
 	public void shouldThrowExcetionWhenPasswordUsernameUserTypeAreEmpty(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.EMPTY_USER_TYPE_MSG);
+		expected.expectMessage(ApplicationConstants.EMPTY_USERNAME_MSG);
 		
 		registrationServiceDao.registerUser("", "", "");
 	}
@@ -103,7 +103,7 @@ public class RegistrationServiceDaoTest {
 	public void shouldThrowExcetionWhenPasswordUsernameUserTypeIsNull(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.NULL_USER_TYPE_MSG);
+		expected.expectMessage(ApplicationConstants.NULL_USERNAME_MSG);
 		
 		registrationServiceDao.registerUser(null, null, null);
 	}
