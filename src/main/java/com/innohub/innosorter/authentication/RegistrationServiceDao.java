@@ -12,12 +12,16 @@ public class RegistrationServiceDao {
 
 	public String registerUser(String username, String password, String userType) {
 		int minLength =8;
+		int maxLength = 18;
 	    int digit =0;
 	    int upCharCount =0;
 	    int lowerCharCount =0;
 	    
 		if(systemUsers.containsKey(username)){
 			throw new RuntimeException( ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
+		}
+		else if (username.length() > maxLength){
+			throw new RuntimeException( ApplicationConstants.LARGE_USERNAME_MSG);
 		}
 		
 		if(userType!= null){
@@ -31,8 +35,10 @@ public class RegistrationServiceDao {
 		}else {
 			throw new RuntimeException(ApplicationConstants.NULL_USER_TYPE_MSG);
 		}
-			
-		if(password.length() >= minLength){
+		if( password.length() > maxLength){
+			throw new RuntimeException( ApplicationConstants.LARGE_PASSWORD_MSG);
+		}
+		else if(password.length() >= minLength){
 			
 			for(int i = 0; i < password.length(); i++){
 				char a = password.charAt(i);
@@ -54,8 +60,7 @@ public class RegistrationServiceDao {
 				systemUsers.put(username, password);
 				return ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG;
 			}
-		}
-		
+		}		
 		throw new RuntimeException( ApplicationConstants.BAD_PASSWORD_MSG);
 	}
 }
