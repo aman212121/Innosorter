@@ -1,8 +1,20 @@
 package com.innohub.innosorter.authentication;
 
+//import static org.mockito.MockitoAnnotations.initMocks;
+//import static org.mockito.Mockito.verify; 
+
 import com.innohub.innosorter.entity.User;
+import com.innohub.innosorter.util.ApplicationConstants;
 
 public class LoginService {
+	
+//	@InjectMocks
+//    private IssueManager issueManager;
+//
+//    @Mock
+//    private IssueRepositoryService mockIssueRepositoryService;
+    
+    
 	RegistrationServiceDao registrationServiceDao=new RegistrationServiceDao();
 
 	public void loginUser(String username,String password,String role) {
@@ -14,41 +26,33 @@ public class LoginService {
 	
 	public void checkUserName(String username,String role) {
 		
-		//if(registrationServiceDao.getUserRole()==role) {
-			
-			if (username.length() <= 18){
-				throw new RuntimeException("User name is too long");
-			}
-		//}
-		
+		UserNamePasswardVerificationService userNamePasswardVerificationService=new UserNamePasswardVerificationService();
+		userNamePasswardVerificationService.checkUsernameLength(username);
 		
 		
 	}
 	public void checkPassword(String password,String role) {
 		
-		//if(registrationServiceDao.getUserRole()==role) {
-			
-//			if (password.length()<=8){
-//				throw new RuntimeException("Password is too short");
-//			}else 
-				if (password.length() >= 18) {
-					throw new RuntimeException("Password is too long");
-				}
-		//}
-		
+		UserNamePasswardVerificationService userNamePasswardVerificationService=new UserNamePasswardVerificationService();
+		userNamePasswardVerificationService.checkPasswordLength(password);
 		
 	}
 	
 	public void checkUserLoggedIn(User user) {
-		throw new RuntimeException("Sorry User is Not LoggedIn");
+		throw new RuntimeException(ApplicationConstants.USER_NOT_LOGGEDIN_MSG);
 		
 	}
 
 	public void loguot(User usr) {
-		throw new RuntimeException("User Logged out successfully");
+		throw new RuntimeException(ApplicationConstants.USER_LOGGEDOUT_MSG);
 
 	}
 	
+	public void logIN(User usr) {
+		throw new RuntimeException(ApplicationConstants.USER_LOGGEDIN_MSG);
+
+	}
 	
+//	public void 
 
 }

@@ -65,7 +65,7 @@ public class RegistrationServiceDao {
 	}
 	
 	public boolean validateUserNamePassword(String username,String password,String role) {
-		  throw new RuntimeException("User Name or Password is invaled");
+		  throw new RuntimeException(ApplicationConstants.LOGIN_ERROR_MSG);
 	}
 
 	public String getUserRole() {
