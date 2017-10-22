@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 
 import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
@@ -74,4 +75,18 @@ public class IssueRepositoryServiceTest {
 		issueRepository.storeIssue(issue);
 
 	}
+	
+	@Test
+	public void shouldNotAllowNonAdminrUserToDeleteCluster(){
+		
+		expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+        
+        Cluster cluster = new Cluster();
+		Developer developer = new Developer("Dev");
+		
+		issueRepository.deleteCluster(developer, cluster);
+       
+	}
+	
 }
