@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.User;
@@ -87,6 +88,15 @@ public class IssueRepositoryServiceTest {
 		
 		issueRepository.deleteCluster(developer, cluster);
        
+	}
+	
+	@Test
+	public void shouldAllowAdminUserToDeleteCluster(){
+		
+		Cluster cluster = new Cluster();
+		Administrator admin = new Administrator("Admin");
+		
+		assertTrue(issueRepository.deleteCluster(admin, cluster));
 	}
 	
 }
