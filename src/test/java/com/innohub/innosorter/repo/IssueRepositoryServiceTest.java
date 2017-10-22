@@ -59,7 +59,7 @@ public class IssueRepositoryServiceTest {
 	}
 
 	@Test
-	public void shouldFindIssueWithIssueTitle() {
+	public void shouldNotStoreIssueWithoutIssueTitle() {
 		Cluster issue = new Cluster();
 		issue.setSummary("Javascript Not Working");
 		issue.setNumOfRelatedPosts(12);
