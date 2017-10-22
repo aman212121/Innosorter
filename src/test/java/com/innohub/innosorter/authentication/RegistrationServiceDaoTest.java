@@ -89,4 +89,22 @@ public class RegistrationServiceDaoTest {
 		
 		registrationServiceDao.registerUser("Aman", "1234567Ab", "not developer");
 	}
+	
+	@Test 
+	public void	shouldThrowExceptionWhenUsernameIsOverCharacterLimit(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.LARGE_USERNAME_MSG);
+		
+		registrationServiceDao.registerUser("Aman123456789111315", "1234567Ab", "developer");
+	}
+	
+	@Test 
+	public void	shouldThrowExceptionWhenPasswordIsOverCharacterLimit(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.LARGE_PASSWORD_MSG);
+		
+		registrationServiceDao.registerUser("Aman", "Aman123456789111315", "developer");
+	}
 }
