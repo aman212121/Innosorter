@@ -14,8 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import junit.framework.AssertionFailedError;
-
 public class IssueRepositoryServiceTest {
 
 	private IssueRepositoryService issueRepository;
@@ -38,13 +36,10 @@ public class IssueRepositoryServiceTest {
 		issue.setNumOfUserImpacted(20);
 		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
 		issue.setCurrentStatus("ASSIGNED");
-		issueRepository.storeIssue(issue);
-
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
 
 		issueRepository.storeIssue(issue);
-
 	}
 
 	@Test
@@ -56,7 +51,6 @@ public class IssueRepositoryServiceTest {
 		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
 		issue.setCurrentStatus("ASSIGNED");
 		issue.setContext("CONTEXT");
-		issueRepository.storeIssue(issue);
 
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.CLUSTER_NUM_OF_IMPACTED_USER_NOT_AVAILABLE_MSG);
@@ -65,7 +59,7 @@ public class IssueRepositoryServiceTest {
 	}
 
 	@Test
-	public void shouldFindIssueWithIssueTitle() {
+	public void shouldNotStoreIssueWithoutIssueTitle() {
 		Cluster issue = new Cluster();
 		issue.setSummary("Javascript Not Working");
 		issue.setNumOfRelatedPosts(12);
@@ -73,13 +67,11 @@ public class IssueRepositoryServiceTest {
 		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
 		issue.setContext("CONTEXT");
 		issue.setCurrentStatus("ASSIGNED");
-		issueRepository.storeIssue(issue);
 
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
 
 		issueRepository.storeIssue(issue);
 
 	}
-
 }
