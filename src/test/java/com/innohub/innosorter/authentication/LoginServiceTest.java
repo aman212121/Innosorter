@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.innohub.innosorter.entity.User;
+import com.innohub.innosorter.util.ApplicationConstants;
 
 public class LoginServiceTest {
 	
@@ -20,7 +21,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNameIsIncorrectForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="test";
@@ -34,7 +35,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsIncorrectForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="TestUserAdmin";
@@ -48,7 +49,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNameIsIncorrectForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="Test";
@@ -62,7 +63,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsIncorrectForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="TestUserDev";
@@ -77,7 +78,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNamePassowrdInceorrectForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="Test";
@@ -91,7 +92,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNamePassowrdInceorrectForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="Test";
@@ -107,7 +108,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNameIsEmptyForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="";
@@ -121,7 +122,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNameIsEmptyForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="";
@@ -136,7 +137,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNameIsNullForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName=null;
@@ -150,7 +151,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUserNameIsNullForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName=null;
@@ -165,7 +166,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsEmptyForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="TestUserAdmin";
@@ -179,7 +180,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsEmptyForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="TestUserDev";
@@ -194,7 +195,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsNullForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="TestUserAdmin";
@@ -208,7 +209,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsNullForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="TestUserDev";
@@ -223,7 +224,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUsernamePasswordAreNullForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName=null;
@@ -237,7 +238,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUsernamePasswordAreNullForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName=null;
@@ -252,7 +253,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUsernamePasswordAreEmptyForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="";
@@ -266,7 +267,7 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUsernamePasswordAreEmptyForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Name or Password is invaled");
+		expected.expectMessage(ApplicationConstants.LOGIN_ERROR_MSG);
 		
 		loginService= new LoginService();
 		String userName="";
@@ -281,11 +282,11 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUsernameIsOverTheCharacterLimitForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User name is too long");
+		expected.expectMessage(ApplicationConstants.LARGE_USERNAME_MSG);
 		
 		loginService= new LoginService();
 		
-		String userName="TestUser123Admin";
+		String userName="TestUser123456789Admin";
 		String role="Admin";
 		
 		loginService.checkUserName(userName,role);
@@ -295,11 +296,11 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenUsernameIsOverTheCharacterLimitForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User name is too long");
+		expected.expectMessage(ApplicationConstants.LARGE_USERNAME_MSG);
 		
 		loginService= new LoginService();
 		
-		String userName="TestUser123Admin";
+		String userName="TestUser123456789Admin";
 		String role="Developer";
 		
 		loginService.checkUserName(userName,role);
@@ -310,21 +311,22 @@ public class LoginServiceTest {
 	public void shouldNotLoginWhenPasswordIsOverTheCharacterLimitForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("Password is too long");
+		expected.expectMessage(ApplicationConstants.LARGE_PASSWORD_MSG);
 		
 		loginService= new LoginService();
 		
-		String password= "123456789@#$AA12345789";
+		String password= "0123456789@#$AA012345789";
 		String role="Admin";
 		
 		loginService.checkPassword(password,role);
 		
 	}
+	
 	@Test
 	public void shouldNotLoginWhenPasswordIsOverTheCharacterLimitForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("Password is too long");
+		expected.expectMessage(ApplicationConstants.LARGE_PASSWORD_MSG);
 		
 		loginService= new LoginService();
 		
@@ -334,28 +336,30 @@ public class LoginServiceTest {
 		loginService.checkPassword(password,role);
 		
 	}
+	
 	@Test
 	public void shouldNotLoginWhenUsernamePasswordAreOverTheCharacterLimitForAdminUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("Password is too long");
+		expected.expectMessage(ApplicationConstants.LARGE_PASSWORD_MSG);
 		
 		loginService= new LoginService();
-		String userName="TestUser123Admin";
+		String userName="TestUser12356789Admin";
 		String password= "123456789@#$AA12345789";
 		String role="Admin";
 		
 		loginService.checkPassword(password,role);
 		
 	}
+	
 	@Test
 	public void shouldNotLoginWhenUsernamePasswordAreOverTheCharacterLimitForDeveloperUser() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("Password is too long");
+		expected.expectMessage(ApplicationConstants.LARGE_PASSWORD_MSG);
 		
 		loginService= new LoginService();
-		String userName="TestUser123Admin";
+		String userName="TestUser123456789Admin";
 		String password= "123456789@#$AA12345789";
 		String role="Developer";
 		
@@ -367,7 +371,7 @@ public class LoginServiceTest {
 	public void shouldLogoutSuccessfullyForAdminUserWhenLoggedIn () {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Logged out successfully");
+		expected.expectMessage(ApplicationConstants.USER_LOGGEDOUT_MSG);
 		loginService= new LoginService();
 		User usr= new User();
 		loginService.loguot(usr);
@@ -377,7 +381,7 @@ public class LoginServiceTest {
 	public void shouldLogoutSuccessfullyForDeveloperUSerWhenLoggedIn() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("User Logged out successfully");
+		expected.expectMessage(ApplicationConstants.USER_LOGGEDOUT_MSG);
 		loginService= new LoginService();
 		User usr= new User();
 		loginService.loguot(usr);
@@ -389,7 +393,7 @@ public class LoginServiceTest {
 	public void shouldThrowExceptionForAdminUserWhenNotLoggedIn () {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("Sorry User is Not LoggedIn");
+		expected.expectMessage(ApplicationConstants.USER_NOT_LOGGEDIN_MSG);
 		loginService= new LoginService();
 		User usr= new User();
 		loginService.checkUserLoggedIn(usr);
@@ -399,35 +403,63 @@ public class LoginServiceTest {
 	public void shouldThrowExceptionForDeveloperUserWhenNotLoggedIn() {
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage("Sorry User is Not LoggedIn");
+		expected.expectMessage(ApplicationConstants.USER_NOT_LOGGEDIN_MSG);
 		loginService= new LoginService();
 		User usr= new User();
 		loginService.checkUserLoggedIn(usr);
 		
 	}
 	
+	/////
 //	@Test
-//	public void shouldAllowAdminUserToLogInAfterLogout () {
+//	public void shouldNotAllowAdminUserToUseFunctionalitiesAfterLoggedOut () {
 //		
 //		expected.expect(RuntimeException.class);
-//		expected.expectMessage("Sorry User is Not LoggedIn");
+//		expected.expectMessage(ApplicationConstants.USER_LOGGEDIN_MSG);
+//		
+//		loginService= new LoginService();
+//		User usr= new User();
+//		loginService.loguot(usr);
+//		
+//		
+//		
+//	}
+//	@Test
+//	public void shouldNotAllowDeveloperUserToUseFunctionalitiesAfterLoggedOut() {
+//		
+//		expected.expect(RuntimeException.class);
+//		expected.expectMessage(ApplicationConstants.USER_LOGGEDIN_MSG);
 //		
 //		loginService= new LoginService();
 //		User usr= new User();
 //		loginService.loguot(usr);
 //		
 //	}
-//	@Test
-//	public void shouldAllowDeveloperUserToLogInAfterLogout() {
-//		
-//		expected.expect(RuntimeException.class);
-//		expected.expectMessage("Sorry User is Not LoggedIn");
-//		
-//		loginService= new LoginService();
-//		User usr= new User();
-//		loginService.loguot(usr);
-//		
-//	}
+	
+	
+	
+	@Test
+	public void shouldAllowAdminUserToLogInAfterLogout () {
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.USER_LOGGEDIN_MSG);
+		
+		loginService= new LoginService();
+		User usr= new User();
+		loginService.logIN(usr);
+		
+	}
+	@Test
+	public void shouldAllowDeveloperUserToLogInAfterLogout() {
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.USER_LOGGEDIN_MSG);
+		
+		loginService= new LoginService();
+		User usr= new User();
+		loginService.logIN(usr);
+		
+	}
 	
 	
 	
