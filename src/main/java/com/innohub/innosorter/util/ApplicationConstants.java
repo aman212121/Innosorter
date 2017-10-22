@@ -21,6 +21,8 @@ public class ApplicationConstants {
 	public static final String EMPTY_USERNAME_MSG = "Empty Username";
 	public static final String NULL_USERNAME_AND_PASSWORD_MSG = "Null Username and Password";
 	public static final String EMPTY_USERNAME_AND_PASSWORD_MSG = "Empty Username and Password";
-
+	public static final String NULL_USER_TYPE_MSG = "Null User Type";
+	public static final String EMPTY_USER_TYPE_MSG = "Empty User Type";
+	public static final String INVALID_USER_TYPE_MSG = "This User Type does not exist";
 
 }

@@ -6,7 +6,7 @@ public class AuthenticationService {
 
 	RegistrationServiceDao registrationServiceDao = new RegistrationServiceDao();
 	
-	public String addNewUser(String username, String password) {
+	public String addNewUser(String username, String password, String userType) {
 		
 		if(username == null){
 			if(password == null){
@@ -25,7 +25,7 @@ public class AuthenticationService {
 			if(password.isEmpty()){
 				throw new RuntimeException(ApplicationConstants.EMPTY_PASSWORD_MSG);
 			}
-			return registrationServiceDao.registerUser(username, password);
+			return registrationServiceDao.registerUser(username, password, userType);
 		}
 		else {
 			throw new RuntimeException(ApplicationConstants.NULL_PASSWORD_MSG);

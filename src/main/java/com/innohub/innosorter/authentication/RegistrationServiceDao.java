@@ -2,6 +2,7 @@ package com.innohub.innosorter.authentication;
 
 import java.util.HashMap;
 
+import com.innohub.innosorter.userClassHierarchy.UserType;
 import com.innohub.innosorter.util.ApplicationConstants;
 
 public class RegistrationServiceDao {
@@ -9,7 +10,7 @@ public class RegistrationServiceDao {
 	//stores username and password of the system
 	protected HashMap<String, String> systemUsers = new HashMap<String, String>();
 
-	public String registerUser(String username, String password) {
+	public String registerUser(String username, String password, String userType) {
 		int minLength =8;
 	    int digit =0;
 	    int upCharCount =0;
@@ -19,6 +20,18 @@ public class RegistrationServiceDao {
 			throw new RuntimeException( ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
 		}
 		
+		if(userType!= null){
+			if (userType.isEmpty()){
+				throw new RuntimeException(ApplicationConstants.EMPTY_USER_TYPE_MSG);
+			}
+			else if(UserType.forValue(userType)== null) {
+				throw new RuntimeException(ApplicationConstants.INVALID_USER_TYPE_MSG);
+			}
+			
+		}else {
+			throw new RuntimeException(ApplicationConstants.NULL_USER_TYPE_MSG);
+		}
+			
 		if(password.length() >= minLength){
 			
 			for(int i = 0; i < password.length(); i++){

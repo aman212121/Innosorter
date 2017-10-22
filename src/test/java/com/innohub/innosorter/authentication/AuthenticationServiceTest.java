@@ -26,7 +26,7 @@ public class AuthenticationServiceTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.NULL_PASSWORD_MSG);
 		
-		authenticationService.addNewUser("newUsername", null);
+		authenticationService.addNewUser("newUsername", null, "developer");
 	}
 	
 	@Test 
@@ -35,7 +35,7 @@ public class AuthenticationServiceTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.EMPTY_PASSWORD_MSG);
 		
-		authenticationService.addNewUser("newUsername", "");
+		authenticationService.addNewUser("newUsername", "", "developer");
 	}
 
 	@Test 
@@ -44,7 +44,7 @@ public class AuthenticationServiceTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.NULL_USERNAME_MSG);
 		
-		authenticationService.addNewUser(null, "A1234567hg");
+		authenticationService.addNewUser(null, "A1234567hg", "developer");
 	}
 	
 	@Test 
@@ -53,7 +53,7 @@ public class AuthenticationServiceTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.EMPTY_USERNAME_MSG);
 		
-		authenticationService.addNewUser("", "A1234567hg");
+		authenticationService.addNewUser("", "A1234567hg", "developer");
 	}
 	
 	@Test 
@@ -62,7 +62,7 @@ public class AuthenticationServiceTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.NULL_USERNAME_AND_PASSWORD_MSG);
 		
-		authenticationService.addNewUser(null, null);
+		authenticationService.addNewUser(null, null, "developer");
 	}
 	
 	@Test 
@@ -71,32 +71,32 @@ public class AuthenticationServiceTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.EMPTY_USERNAME_AND_PASSWORD_MSG);
 		
-		authenticationService.addNewUser("", "");
+		authenticationService.addNewUser("", "", "developer");
 	}
 	
 	@Test
 	public void shouldNotAllowUserToHaveDuplicateUserName(){
 		
-		authenticationService.addNewUser("Aman", "A123456fd");
+		authenticationService.addNewUser("Aman", "A123456fd", "developer");
 		
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
 		
-		authenticationService.addNewUser("Aman", "B1234trw");;
+		authenticationService.addNewUser("Aman", "B1234trw", "developer");;
 	}
 	
 	@Test
 	public void shouldAllowUserToSetPassword(){
 		
 		//correct password
-		String result = authenticationService.addNewUser("NotAman", "Abc12345");
+		String result = authenticationService.addNewUser("NotAman", "Abc12345", "developer");
 		assertEquals(ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG, result);
 	}
 	
 	@Test
 	public void shouldThrowExceptionOfNewPasswordBeDifferentFromOldPasswordWhenUpdatingPassword(){
 		
-		authenticationService.addNewUser("NotAman", "Abc12345");
+		authenticationService.addNewUser("NotAman", "Abc12345", "developer");
 		
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.SAME_AS_PREVIOUS_PASSWORD_MSG);
@@ -107,7 +107,7 @@ public class AuthenticationServiceTest {
 	@Test
 	public void shouldSuccessfullyChangeOldPasswordToNewPasswordWhenUpdatingPassword(){
 		
-		authenticationService.addNewUser("NotAman", "Abc12345");
+		authenticationService.addNewUser("NotAman", "Abc12345", "developer");
 		
 		String result = authenticationService.updatePassword("NotAman", "Abc12345", "Bcd23456");
 		assertEquals(ApplicationConstants.SUCCESSFULLY_UPDATED_PASSWORD_MSG, result);
@@ -116,7 +116,7 @@ public class AuthenticationServiceTest {
 	@Test
 	public void shouldThrowExceptionOfIncorrectPasswordWhenUpdatingPassword(){
 		
-		authenticationService.addNewUser("NotAman", "Abc12345");
+		authenticationService.addNewUser("NotAman", "Abc12345", "developer");
 		
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.INVALID_PASSWORD_MSG);
@@ -127,7 +127,7 @@ public class AuthenticationServiceTest {
 	@Test
 	public void shouldThrowExceptionOfInvalidUserWhenUpdatingPassword(){
 		
-		authenticationService.addNewUser("NotAman", "Abc12345");
+		authenticationService.addNewUser("NotAman", "Abc12345", "developer");
 		
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.INVALID_USERNAME_MSG);

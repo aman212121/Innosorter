@@ -23,7 +23,7 @@ public class RegistrationServiceDaoTest {
 	@Test 
 	public void shouldSuccessfullyRegisterNewUser(){
 		
-		String result = registrationServiceDao.registerUser("NotAman", "Abc12345");
+		String result = registrationServiceDao.registerUser("NotAman", "Abc12345", "developer");
 		assertEquals(ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG, result);
 	}
 	
@@ -33,7 +33,7 @@ public class RegistrationServiceDaoTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
-		registrationServiceDao.registerUser("Aman", "12345678"  );
+		registrationServiceDao.registerUser("Aman", "12345678" , "developer" );
 	}
 	
 	@Test 
@@ -42,7 +42,7 @@ public class RegistrationServiceDaoTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
-		registrationServiceDao.registerUser("Aman", "abcdefgh");
+		registrationServiceDao.registerUser("Aman", "abcdefgh", "developer");
 	}
 	
 	@Test 
@@ -51,7 +51,7 @@ public class RegistrationServiceDaoTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
-		registrationServiceDao.registerUser("Aman", "ABCDEFGHI");
+		registrationServiceDao.registerUser("Aman", "ABCDEFGHI", "developer");
 	}
 	
 	@Test 
@@ -60,7 +60,7 @@ public class RegistrationServiceDaoTest {
 		expected.expect(RuntimeException.class);
 		expected.expectMessage(ApplicationConstants.BAD_PASSWORD_MSG);
 		
-		registrationServiceDao.registerUser("Aman", "1234567");
+		registrationServiceDao.registerUser("Aman", "1234567", "developer");
 	}
 	
 	@Test 
@@ -85,7 +85,7 @@ public class RegistrationServiceDaoTest {
 	public void shouldThrowExcetionWhenUserTypeDoesNotExist(){
 		
 		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.NULL_USER_TYPE_MSG);
+		expected.expectMessage(ApplicationConstants.INVALID_USER_TYPE_MSG);
 		
 		registrationServiceDao.registerUser("Aman", "1234567Ab", "not developer");
 	}
