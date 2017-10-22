@@ -8,6 +8,18 @@ public class AuthenticationService {
 	
 	public String addNewUser(String username, String password) {
 		
+		if(username == null){
+			if(password == null){
+				throw new RuntimeException(ApplicationConstants.NULL_USERNAME_AND_PASSWORD_MSG);
+			}
+			throw new RuntimeException(ApplicationConstants.NULL_USERNAME_MSG);
+		}
+		if(username.isEmpty()){
+			if(password.isEmpty()){
+				throw new RuntimeException(ApplicationConstants.EMPTY_USERNAME_AND_PASSWORD_MSG);
+			}
+			throw new RuntimeException(ApplicationConstants.EMPTY_USERNAME_MSG);
+		}
 		if(password!= null){
 			//if the password is an empty string
 			if(password.isEmpty()){
