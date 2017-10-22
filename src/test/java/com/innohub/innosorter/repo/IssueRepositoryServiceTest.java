@@ -77,7 +77,7 @@ public class IssueRepositoryServiceTest {
 	}
 	
 	@Test
-	public void shouldNotAllowNonAdminrUserToDeleteCluster(){
+	public void shouldNotAllowDeveloperUserToDeleteCluster(){
 		
 		expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
