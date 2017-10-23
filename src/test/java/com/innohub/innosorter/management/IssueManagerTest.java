@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.omg.CORBA.portable.ApplicationException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -214,6 +215,95 @@ public class IssueManagerTest {
 
         // Then
         verify(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);
+    }
+
+    @Test
+    public void shouldAllowAdminUserToRemoveForumPostFromClusterThatExistInMoreThanOneCluster(){
+        // find 
+    }
+
+    @Test
+    public void shouldNotAllowAdminUserToRemoveForumPostFromClusterWhenForumPostIsNotInCluster(){
+        // Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        // And
+        Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
+        Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
+
+        //And
+        expected.expect(RuntimeException.class);
+        //And (Should be JDBC exception)
+        expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_HAVE_SUCH_A_POST);
+
+        //And
+        Mockito.doThrow(new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_HAVE_SUCH_A_POST)).when(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);
+
+        // When
+        issueManager.removePostFromCluster(admin, clusterOne, postOne);
+
+        // Then
+        verify(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);        
+    }
+
+    @Test
+    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromCluster(){
+        //Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        //And
+        Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
+        Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(false);
+
+        //And
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
+
+        //When
+        issueManager.removePostFromCluster(admin, clusterOne, postOne);
+    }
+
+    @Test
+    public void shouldNotAllowAdminUserToRemoveForumPostFromNonexistingCluster(){
+        //Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        //And
+        Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(false);
+
+        //And
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
+
+        //When
+        issueManager.removePostFromCluster(admin, clusterOne, postOne);
+    }
+    //shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster
+    @Test
+    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster(){
+        //Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        //And
+        Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(false);
+        Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(false);
+
+        //And
+        expected.expect(RuntimeException.class);
+        
+        //And (because this condition fires first)
+        expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
+
+        //When
+        issueManager.removePostFromCluster(admin, clusterOne, postOne);
     }
 
 }

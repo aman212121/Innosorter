@@ -33,4 +33,6 @@ public class ApplicationConstants {
 	public static final String LARGE_PASSWORD_MSG = "The entered password is too large";
 	public static final String CLUSTER_DOES_NOT_EXIST_MSG = "This cluster does not exist";
 
+    public static final String CLUSTER_DOES_NOT_HAVE_SUCH_A_POST = "Cluster does not have such a post";
+
 }
