@@ -124,6 +124,63 @@ public class IssueManagerTest {
 
         
     }
+    
+    @Test
+    public void shouldNotAllowAdminUserToAddForumPostIntoNonExistingCluster(){
+        //Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        //And
+        Mockito.doThrow(new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG))
+        .when(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
+        //And
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
+
+        //When
+        issueManager.addPostToCluser(admin, clusterOne, postOne);
+    }
+
+    @Test
+    public void shouldNotAllowAdminUserToAddNonexistingForumPostIntoCluster(){
+        //Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        //And
+        Mockito.doThrow(new RuntimeException(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG))
+        .when(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
+        //And
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
+
+        //When
+        issueManager.addPostToCluser(admin, clusterOne, postOne);
+    }
+    
+    @Test
+    public void shouldNotAllowAdminUserToAddNoneexistingForumPostIntoNonexistingCluster(){
+        //Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+        Administrator admin = new Administrator("AdminUser");
+
+        //And
+        Mockito.doThrow(new RuntimeException(ApplicationConstants.LUSTE_AND_FORUM_POST_DO_NOT_EXSIST_MSG))
+        .when(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
+        //And
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.LUSTE_AND_FORUM_POST_DO_NOT_EXSIST_MSG);
+
+        //When
+        issueManager.addPostToCluser(admin, clusterOne, postOne);
+
+        
+    }
+     
 
 
 }
