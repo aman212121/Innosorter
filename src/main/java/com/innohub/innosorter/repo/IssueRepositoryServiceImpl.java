@@ -47,4 +47,10 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         // TODO Auto-generated method stub
         return false;
     }
+
+    @Override
+    public void removePostFromCluster(Cluster cluster, Post post) {
+        // TODO Auto-generated method stub
+        
+    }
 }

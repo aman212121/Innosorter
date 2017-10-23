@@ -14,5 +14,7 @@ public interface IssueRepositoryService {
   boolean checkPostExist(int postID);
 
   boolean deleteCluster(User user, Cluster cluster);
+  
+  void removePostFromCluster(Cluster cluster, Post post);
 
 }
