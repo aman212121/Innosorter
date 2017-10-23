@@ -16,13 +16,22 @@ public class RegistrationServiceDao {
 	    int digit =0;
 	    int upCharCount =0;
 	    int lowerCharCount =0;
-	    
-		if(systemUsers.containsKey(username)){
-			throw new RuntimeException( ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
-		}
-		else if (username.length() > maxLength){
-			throw new RuntimeException( ApplicationConstants.LARGE_USERNAME_MSG);
-		}
+		
+	    if(username!= null){
+	    	
+	    	if(username.isEmpty()){
+	    		throw new RuntimeException( ApplicationConstants.EMPTY_USERNAME_MSG);
+	    	}
+			if(systemUsers.containsKey(username)){
+				throw new RuntimeException( ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
+			}
+			else if (username.length() > maxLength){
+				throw new RuntimeException( ApplicationConstants.LARGE_USERNAME_MSG);
+			}
+	    }
+	    else {
+	    	throw new RuntimeException( ApplicationConstants.NULL_USERNAME_MSG);
+	    }
 		
 		if(userType!= null){
 			if (userType.isEmpty()){

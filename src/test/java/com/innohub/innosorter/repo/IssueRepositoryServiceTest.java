@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
@@ -14,10 +16,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+
 public class IssueRepositoryServiceTest {
 
 	private IssueRepositoryService issueRepository;
-
+    
 	@Before
 	public void SetUp() {
 		issueRepository = new IssueRepositoryServiceImpl();
@@ -73,5 +76,27 @@ public class IssueRepositoryServiceTest {
 
 		issueRepository.storeIssue(issue);
 
+	}
+	
+	@Test
+	public void shouldNotAllowDeveloperUserToDeleteCluster(){
+		
+		expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+        
+        Cluster cluster = new Cluster();
+		Developer developer = new Developer("Dev");
+		
+		issueRepository.deleteCluster(developer, cluster);
+       
+	}
+	
+	@Test
+	public void shouldAllowAdminUserToDeleteCluster(){
+		
+		Cluster cluster = new Cluster();
+		Administrator admin = new Administrator("Admin");
+		
+		assertTrue(issueRepository.deleteCluster(admin, cluster));
 	}
 }

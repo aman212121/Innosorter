@@ -91,6 +91,24 @@ public class RegistrationServiceDaoTest {
 	}
 	
 	@Test 
+	public void shouldThrowExcetionWhenPasswordUsernameUserTypeAreEmpty(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.EMPTY_USERNAME_MSG);
+		
+		registrationServiceDao.registerUser("", "", "");
+	}
+	
+	@Test 
+	public void shouldThrowExcetionWhenPasswordUsernameUserTypeIsNull(){
+		
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.NULL_USERNAME_MSG);
+		
+		registrationServiceDao.registerUser(null, null, null);
+	}
+	
+	@Test 
 	public void	shouldThrowExceptionWhenUsernameIsOverCharacterLimit(){
 		
 		expected.expect(RuntimeException.class);
