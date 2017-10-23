@@ -7,7 +7,7 @@ public class ApplicationConstants {
     public final static String CLUSTER_CONTEXT_NOT_AVAILABLE_MSG = "Cluster does not have context.";
     public final static String CLUSTER_NUM_OF_IMPACTED_USER_NOT_AVAILABLE_MSG = "Cluster does not have num of user impacted.";
     public final static String CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG = "Cluster does not have issue title.";
-    
+    public final static String CLUSTER_ALREADY_HAS_THE_POST_MSG = "Cluster already has the post.";
     public final static String USERNAME_ALREADY_EXISTS_MSG = "Username Already Exists";
 	public final static String SUCCESSFULLY_ADDED_USER_MSG = "New User Successfully Added";
 	public final static String BAD_PASSWORD_MSG = "Weak Password";

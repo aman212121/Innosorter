@@ -3,6 +3,9 @@ package com.innohub.innosorter.repo;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
@@ -10,6 +13,10 @@ import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -21,9 +28,13 @@ public class IssueRepositoryServiceTest {
 
 	private IssueRepositoryService issueRepository;
     
+	@Mock
+    private IssueRepositoryService mockIssueRepositoryService;
+    
 	@Before
 	public void SetUp() {
 		issueRepository = new IssueRepositoryServiceImpl();
+		initMocks(this);
 	}
 
 	@Rule
@@ -109,9 +120,9 @@ public class IssueRepositoryServiceTest {
 		Cluster cluster = new Cluster();
         Administrator admin = new Administrator("Admin");
         
-        Mockito.doNothing().doThrow(new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_EXIST_MSG))
+        Mockito.doThrow(new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_EXIST_MSG))
         .when(mockIssueRepositoryService).deleteCluster(admin, cluster);
         
-        issueRepository.deleteCluster(admin, cluster);
+        mockIssueRepositoryService.deleteCluster(admin, cluster);
 	}
 }
