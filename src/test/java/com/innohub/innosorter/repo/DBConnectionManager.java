@@ -31,6 +31,10 @@ public class DBConnectionManager {
           return dbConnection;
     }
 
+    public static Connection getConnection(){
+        return dbConnection;
+    }
+
     public static void getNumberOfClusters() throws Exception{
         PreparedStatement statement = dbConnection.prepareStatement("SELECT COUNT(*) FROM CLUSTER");
         ResultSet rs = statement.executeQuery();
