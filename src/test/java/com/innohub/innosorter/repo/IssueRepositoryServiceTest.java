@@ -3,9 +3,6 @@ package com.innohub.innosorter.repo;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
@@ -13,10 +10,6 @@ import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,13 +21,9 @@ public class IssueRepositoryServiceTest {
 
 	private IssueRepositoryService issueRepository;
     
-	@Mock
-    private IssueRepositoryService mockIssueRepositoryService;
-    
 	@Before
 	public void SetUp() {
 		issueRepository = new IssueRepositoryServiceImpl();
-		initMocks(this);
 	}
 
 	@Rule
