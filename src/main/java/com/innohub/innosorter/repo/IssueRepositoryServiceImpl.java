@@ -7,6 +7,7 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
+    @Override
 	public void storeIssue(Cluster cluster) {
 		if (cluster.getContext() == null) {
 			throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
@@ -17,8 +18,21 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 		}
 	}
 
+    @Override
     public void addPostToCluster(Cluster clusterOne, Post postOne) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public boolean checkClusterExist(int clusterID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean checkPostExist(int postID) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }
