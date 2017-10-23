@@ -26,5 +26,6 @@ public class ApplicationConstants {
 	public static final String INVALID_USER_TYPE_MSG = "This User Type does not exist";
 	public static final String LARGE_USERNAME_MSG = "The entered password is too large";
 	public static final String LARGE_PASSWORD_MSG = "The entered password is too large";
+	public static final String CLUSTER_DOES_NOT_EXIST_MSG = "This cluster does not exist";
 
 }

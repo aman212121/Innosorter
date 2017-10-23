@@ -3,6 +3,7 @@ package com.innohub.innosorter.repo;
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.User;
+import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
 
@@ -17,7 +18,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 			throw new RuntimeException(ApplicationConstants.CLUSTER_NUM_OF_IMPACTED_USER_NOT_AVAILABLE_MSG);
 		}
 	}
-
+	
 	public boolean deleteCluster(User user, Cluster cluster) {
 		
 		if (!(user instanceof Administrator)){
@@ -27,4 +28,8 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 			return true;
 		}
 	}
+    public void addPostToCluster(Cluster clusterOne, Post postOne) {
+        // TODO Auto-generated method stub
+        
+    }
 }
