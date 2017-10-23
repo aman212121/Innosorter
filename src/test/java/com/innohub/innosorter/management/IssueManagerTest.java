@@ -197,7 +197,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    void shouldAllowAdminUserToRemoveForumPostFromCluster() {
+    public void shouldAllowAdminUserToRemoveForumPostFromCluster() {
         // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();

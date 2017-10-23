@@ -14,9 +14,6 @@ public class IssueManager {
 
     public void addPostToCluser(User user, Cluster clusterOne, Post postOne) {
 
-        Cluster cluster = new Cluster();
-        Post post = new Post();
-
         if (!(user instanceof Administrator)) {
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
         } else {
@@ -24,7 +21,7 @@ public class IssueManager {
             if (!issueRepositoryService.checkClusterExist(clusterOne.getClusterID())) {
                 throw new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
             }
-            if (!issueRepositoryService.checkPostExist(post.getPostID())) {
+            if (!issueRepositoryService.checkPostExist(postOne.getPostID())) {
                 throw new RuntimeException(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
             }
         }
@@ -35,6 +32,14 @@ public class IssueManager {
     public void removePostFromCluster(User user, Cluster clusterOne, Post postOne) {
         if (!(user instanceof Administrator)){
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+        }else {
+
+            if (!issueRepositoryService.checkClusterExist(clusterOne.getClusterID())) {
+                throw new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
+            }
+            if (!issueRepositoryService.checkPostExist(postOne.getPostID())) {
+                throw new RuntimeException(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
+            }
         }
         issueRepositoryService.removePostFromCluster(clusterOne, postOne);
         
