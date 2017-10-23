@@ -11,6 +11,9 @@ public class Cluster {
 	String context;
 	List<User> assignees;
 	String currentStatus;
+	boolean isClusterExsist;
+	int clusterID;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -52,6 +55,10 @@ public class Cluster {
 	}
 	public void setCurrentStatus(String currentStatus) {
 		this.currentStatus = currentStatus;
+	}
+	
+	public int getClusterID() {
+		return clusterID;
 	}
 	
 }

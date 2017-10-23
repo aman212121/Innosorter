@@ -8,4 +8,9 @@ public interface IssueRepositoryService {
     void storeIssue(Cluster cluster);
 
     void addPostToCluster(Cluster cluster, Post post);
+    
+    boolean checkClusterExist(int clusterID);
+    
+    boolean checkPostExist(int postID);
 }
+
