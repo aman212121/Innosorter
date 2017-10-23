@@ -9,6 +9,7 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
+    @Override
 	public void storeIssue(Cluster cluster) {
 		if (cluster.getContext() == null) {
 			throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
@@ -18,7 +19,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 			throw new RuntimeException(ApplicationConstants.CLUSTER_NUM_OF_IMPACTED_USER_NOT_AVAILABLE_MSG);
 		}
 	}
-	
+
 	public boolean deleteCluster(User user, Cluster cluster) {
 		
 		if (!(user instanceof Administrator)){
@@ -28,8 +29,22 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 			return true;
 		}
 	}
+
+    @Override
     public void addPostToCluster(Cluster clusterOne, Post postOne) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public boolean checkClusterExist(int clusterID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean checkPostExist(int postID) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }
