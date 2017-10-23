@@ -195,7 +195,25 @@ public class IssueManagerTest {
         //When
         issueManager.addPostToCluser(admin, clusterOne, postOne);
     }
-     
 
+    @Test
+    void shouldAllowAdminUserToRemoveForumPostFromCluster() {
+        // Given
+        Cluster clusterOne = new Cluster();
+        Post postOne = new Post();
+
+        // And
+        Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
+        Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
+
+        // And
+        Administrator admin = new Administrator("AdminUser");
+
+        // When
+        issueManager.removePostFromCluster(admin, clusterOne, postOne);
+
+        // Then
+        verify(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);
+    }
 
 }

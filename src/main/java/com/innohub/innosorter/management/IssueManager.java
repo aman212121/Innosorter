@@ -36,6 +36,8 @@ public class IssueManager {
         if (!(user instanceof Administrator)){
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
         }
+        issueRepositoryService.removePostFromCluster(clusterOne, postOne);
+        
         
     }
 
