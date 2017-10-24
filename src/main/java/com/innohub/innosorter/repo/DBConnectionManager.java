@@ -21,7 +21,7 @@ public class DBConnectionManager {
           }
 
           if (userName == null ) userName = "root";
-          if (password == null ) password = "rootpass";
+          if (password == null ) password = "";
            
           dbConnection = DriverManager.getConnection(uri, userName, password);
           
@@ -35,13 +35,14 @@ public class DBConnectionManager {
         return dbConnection;
     }
 
-    public static void getNumberOfClusters() throws Exception{
+    public static ResultSet getNumberOfClusters() throws Exception{
         PreparedStatement statement = dbConnection.prepareStatement("SELECT COUNT(*) FROM CLUSTER");
         ResultSet rs = statement.executeQuery();
         if (rs.next()){
             System.out.println(rs.getInt(1));
         }
         statement.close();
+        return rs;
 //        this.dbConnection.close();
     }
     
