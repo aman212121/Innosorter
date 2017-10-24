@@ -70,10 +70,11 @@ public class IssueRepositoryServiceImpl extends DBConnectionManager implements I
             throw new RuntimeException(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_ZERO_MSG);
         } else if (cluster.getPriority().toString() == "") {
             throw new RuntimeException(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_EMPTY_MSG);
-        } else if (cluster.getPosts().isEmpty()) {
-            throw new RuntimeException(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_EMPTY_MSG);
-        } else if (cluster.getPosts() == null) {
-            throw new RuntimeException(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NULL_MSG);
+//        } else if (cluster.getPosts().isEmpty()) {
+//            throw new RuntimeException(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_EMPTY_MSG);
+//        } else if (cluster.getPosts() == null) {
+//            throw new RuntimeException(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NULL_MSG);
+//        }
         }
     }
 

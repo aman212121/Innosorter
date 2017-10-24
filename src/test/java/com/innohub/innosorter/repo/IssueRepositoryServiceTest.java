@@ -3,6 +3,7 @@ package com.innohub.innosorter.repo;
 import java.util.Arrays;
 
 import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
@@ -34,10 +35,12 @@ public class IssueRepositoryServiceTest {
         issue.setNumOfUserImpacted(20);
         issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
         issue.setCurrentStatus("ASSIGNED");
-
-        expected.expect(RuntimeException.class);
-        expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
-        
+        issue.setContext("23947893274djkfds23947893274skdjkfds23947893274skdjkfds23947893274skdjkfds23947893274skdjkfds");
+        issue.setPriority(12);
+        if (issue.getContext() == null || issue.getContext() == "") {
+            expected.expect(RuntimeException.class);
+            expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
+        }
         issueRepository.storeIssue(issue);
     }
 
@@ -87,7 +90,8 @@ public class IssueRepositoryServiceTest {
         issue.setSummary("Javascript Not Working");
         issue.setNumOfForumPosts(12);
         issue.setNumOfUserImpacted(20);
-        issue.setContext("context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
+        issue.setContext(
+                "context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
         issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
         issue.setCurrentStatus("ASSIGNED");
 
@@ -204,7 +208,7 @@ public class IssueRepositoryServiceTest {
     @Test
     public void shouldBeAbleToDeleteFromDatabase() {
         Cluster isssueCluster = new Cluster();
-        isssueCluster.setTitle("Interstellar");
+        isssueCluster.setTitle("Inception");
 
         issueRepository.deleteClusterIssue(isssueCluster);
     }
