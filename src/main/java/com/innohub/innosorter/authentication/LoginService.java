@@ -14,22 +14,16 @@ import com.innohub.innosorter.management.IssueManager;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
 
-public class LoginService {
-	
-//	@InjectMocks
-//    private IssueManager issueManager;
-//
-//    @Mock
-//    private IssueRepositoryService mockIssueRepositoryService;
-    
+public class LoginService {   
     
 	RegistrationServiceDao registrationServiceDao=new RegistrationServiceDao();
 
 	public void loginUser(String username,String password,String role) {
+			
+		if(!registrationServiceDao.validateUserNamePassword(username,password,role)){
 		
-		
-		boolean isunamepwdCurrect = registrationServiceDao.validateUserNamePassword(username,password,role);
-		
+			throw new RuntimeException(ApplicationConstants.LOGIN_ERROR_MSG);
+		}
 	}
 	
 	public void checkUserName(String username,String role) {
@@ -51,7 +45,7 @@ public class LoginService {
 		
 	}
 
-	public void loguot(User usr) {
+	public void logout(User usr) {
 		throw new RuntimeException(ApplicationConstants.USER_LOGGEDOUT_MSG);
 
 	}

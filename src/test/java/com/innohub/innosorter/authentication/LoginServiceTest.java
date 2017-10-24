@@ -374,7 +374,7 @@ public class LoginServiceTest {
 		expected.expectMessage(ApplicationConstants.USER_LOGGEDOUT_MSG);
 		loginService= new LoginService();
 		User usr= new User();
-		loginService.loguot(usr);
+		loginService.logout(usr);
 		
 	}
 	@Test
@@ -384,7 +384,7 @@ public class LoginServiceTest {
 		expected.expectMessage(ApplicationConstants.USER_LOGGEDOUT_MSG);
 		loginService= new LoginService();
 		User usr= new User();
-		loginService.loguot(usr);
+		loginService.logout(usr);
 		
 	}
 	
@@ -419,7 +419,7 @@ public class LoginServiceTest {
 //		
 //		loginService= new LoginService();
 //		User usr= new User();
-//		loginService.loguot(usr);
+//		loginService.logout(usr);
 //		loginService.checkuserAddsPostToCluser();
 //		
 //		
@@ -432,7 +432,7 @@ public class LoginServiceTest {
 //		
 //		loginService= new LoginService();
 //		User usr= new User();
-//		loginService.loguot(usr);
+//		loginService.logout(usr);
 //		
 //	}
 //	
@@ -459,11 +459,5 @@ public class LoginServiceTest {
 		User usr= new User();
 		loginService.logIN(usr);
 		
-	}
-	
-	
-	
-
-	
-	
+	}	
 }

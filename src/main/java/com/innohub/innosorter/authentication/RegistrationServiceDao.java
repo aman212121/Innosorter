@@ -11,6 +11,7 @@ public class RegistrationServiceDao {
 	protected HashMap<String, String> systemUsers = new HashMap<String, String>();
 
 	public String registerUser(String username, String password, String userType) {
+		
 		int minLength =8;
 		int maxLength = 18;
 	    int digit =0;
@@ -65,7 +66,11 @@ public class RegistrationServiceDao {
 	}
 	
 	public boolean validateUserNamePassword(String username,String password,String role) {
-		  throw new RuntimeException(ApplicationConstants.LOGIN_ERROR_MSG);
+		
+		if(systemUsers.containsKey(username) && systemUsers.get(username).equals(password)){
+			return true;
+		}
+		  return false;
 	}
 
 	public String getUserRole() {
