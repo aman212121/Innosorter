@@ -111,6 +111,7 @@ public class IssueRepositoryServiceTest {
         issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
         issue.setCurrentStatus("ASSIGNED");
 
+
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
 
@@ -185,6 +186,280 @@ public class IssueRepositoryServiceTest {
         issueRepository.storeIssue(issue);
 
     }
+
+	@Test
+	public void shouldNotStoreIssueWhenIssueTitleIsNull() {
+		Cluster issue = new Cluster();
+		issue.setTitle(null);
+		issue.setSummary("Javascript Not Working");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssueWhenIssueTitleIsEmpty() {
+		Cluster issue = new Cluster();
+		issue.setTitle("");
+		issue.setSummary("Javascript Not Working");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenIssueTitleIsOverTheCharacterLimit() {
+		Cluster issue = new Cluster();
+		issue.setTitle("context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
+		issue.setSummary("Javascript Not Working");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenIssueTitleIsLessThanCharacterLimit() {
+		Cluster issue = new Cluster();
+		issue.setTitle("D");
+		issue.setSummary("Javascript Not Working");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenSummaryIsNull() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary(null);
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenSummaryIsEmpty() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenSummaryOverTheCharacterLimit() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenSummaryLessThanCharacterLimit() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("D");
+		issue.setNumOfForumPosts(12);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenNumberOfForumPostsIsNull() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(null);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenNumberOfForumPostsIsZero() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(0);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenNumberOfForumPostsIsNegativeValue() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(-1);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenPriorityIsNull() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(4);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+		issue.setPriority(null);
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenPriorityIsZero() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(4);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+		issue.setPriority(0);
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenPriorityIsNegativeValue() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(4);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+		issue.setPriority(-2);
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
+
+	@Test
+	public void shouldNotStoreIssuesWhenPriorityContainFloatingPoints() {
+		Cluster issue = new Cluster();
+		issue.setTitle("Error 404");
+		issue.setSummary("JavaScript not working");
+		issue.setNumOfForumPosts(4);
+		issue.setNumOfUserImpacted(20);
+		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+		issue.setContext("CONTEXT");
+		issue.setCurrentStatus("ASSIGNED");
+		issue.setPriority(1.6);
+
+		expected.expect(RuntimeException.class);
+		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+
+		issueRepository.storeIssue(issue);
+
+	}
 
     @Test
     public void shouldBeAbleToInsertIntoDatabase() {
