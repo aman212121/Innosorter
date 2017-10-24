@@ -38,6 +38,6 @@ public class ApplicationConstants {
 	public static final String USER_LOGGEDOUT_MSG = "User Logged out successfully";
 	public static final String USER_LOGGEDIN_MSG = "User Logged IN successfully";
   public static final String CLUSTER_DOES_NOT_EXIST_MSG = "This cluster does not exist";
-  public static final String CLUSTER_DOES_NOT_HAVE_SUCH_A_POST = "Cluster does not have such a post"
+  public static final String CLUSTER_DOES_NOT_HAVE_SUCH_A_POST = "Cluster does not have such a post";
 
 }
