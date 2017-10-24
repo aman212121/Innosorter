@@ -9,6 +9,7 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
+    @Override
 	public void storeIssue(Cluster cluster) {
 		if (cluster.getContext() == null) {
 			throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
