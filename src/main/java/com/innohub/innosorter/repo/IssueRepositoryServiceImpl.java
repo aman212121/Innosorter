@@ -6,11 +6,14 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.sql.PreparedStatement;
 
+import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.User;
+import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
 
-public class IssueRepositoryServiceImpl extends DBConnectionManager implements IssueRepositoryService {
+public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
     private static final int ContextCharacterOverLimit = 256;
     private static final int ContextLessCharacterLimit = 8;
@@ -168,4 +171,37 @@ public class IssueRepositoryServiceImpl extends DBConnectionManager implements I
         System.out.println("Connecting to a selected database... ");
     }
 
+	public boolean deleteCluster(User user, Cluster cluster) {
+		
+		if (!(user instanceof Administrator)){
+            throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+        }
+		else {
+			return true;
+		}
+	}
+
+    @Override
+    public void addPostToCluster(Cluster clusterOne, Post postOne) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean checkClusterExist(int clusterID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean checkPostExist(int postID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void removePostFromCluster(Cluster cluster, Post post) {
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -13,13 +13,17 @@ public class Cluster {
 	List<User> assignees;
 	List<Post> posts;
 	String currentStatus;
-	
+      boolean isClusterExsist;
+      int clusterID;
+
 	public List<Post> getPosts() {
 		return posts;
 	}
+
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -69,6 +73,10 @@ public class Cluster {
 	}
 	public void setCurrentStatus(String currentStatus) {
 		this.currentStatus = currentStatus;
+	}
+	
+	public int getClusterID() {
+		return clusterID;
 	}
 	
 }

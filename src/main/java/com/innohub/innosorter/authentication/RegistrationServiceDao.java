@@ -2,26 +2,52 @@ package com.innohub.innosorter.authentication;
 
 import java.util.HashMap;
 
+import com.innohub.innosorter.userClassHierarchy.UserType;
+import com.innohub.innosorter.util.ApplicationConstants;
+
 public class RegistrationServiceDao {
 
 	//stores username and password of the system
 	protected HashMap<String, String> systemUsers = new HashMap<String, String>();
-	//return messages for creating a new user
-	public static String usernameAlreadyExistsMessage = "Username Already Exists";
-	public static String successMessage = "New User Successfully Added";
-	public static String badPasswordMessage = "Weak Password";
 
-	public String registerUser(String username, String password) {
+	public String registerUser(String username, String password, String userType) {
 		int minLength =8;
+		int maxLength = 18;
 	    int digit =0;
 	    int upCharCount =0;
 	    int lowerCharCount =0;
-	    
-		if(systemUsers.containsKey(username)){
-			throw new RuntimeException( usernameAlreadyExistsMessage);
-		}
 		
-		if(password.length() >= minLength){
+	    if(username!= null){
+	    	
+	    	if(username.isEmpty()){
+	    		throw new RuntimeException( ApplicationConstants.EMPTY_USERNAME_MSG);
+	    	}
+			if(systemUsers.containsKey(username)){
+				throw new RuntimeException( ApplicationConstants.USERNAME_ALREADY_EXISTS_MSG);
+			}
+			else if (username.length() > maxLength){
+				throw new RuntimeException( ApplicationConstants.LARGE_USERNAME_MSG);
+			}
+	    }
+	    else {
+	    	throw new RuntimeException( ApplicationConstants.NULL_USERNAME_MSG);
+	    }
+		
+		if(userType!= null){
+			if (userType.isEmpty()){
+				throw new RuntimeException(ApplicationConstants.EMPTY_USER_TYPE_MSG);
+			}
+			else if(UserType.forValue(userType)== null) {
+				throw new RuntimeException(ApplicationConstants.INVALID_USER_TYPE_MSG);
+			}
+			
+		}else {
+			throw new RuntimeException(ApplicationConstants.NULL_USER_TYPE_MSG);
+		}
+		if( password.length() > maxLength){
+			throw new RuntimeException( ApplicationConstants.LARGE_PASSWORD_MSG);
+		}
+		else if(password.length() >= minLength){
 			
 			for(int i = 0; i < password.length(); i++){
 				char a = password.charAt(i);
@@ -41,10 +67,9 @@ public class RegistrationServiceDao {
 			//if all the conditions are met, add user
 			if (digit > 0 && upCharCount >0 && lowerCharCount >0){
 				systemUsers.put(username, password);
-				return successMessage;
+				return ApplicationConstants.SUCCESSFULLY_ADDED_USER_MSG;
 			}
-		}
-		
-		throw new RuntimeException( badPasswordMessage);
+		}		
+		throw new RuntimeException( ApplicationConstants.BAD_PASSWORD_MSG);
 	}
 }
