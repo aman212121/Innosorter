@@ -124,19 +124,24 @@ public class IssueRepositoryServiceTest {
     @Test
     public void shouldNotStoreIssuesWhenContextIsLessThanCharacterLimit() {
 
+        // Given
         Cluster issue = new Cluster();
         issue.setTitle("IssueName4");
         issue.setSummary("Javascript Not Working");
         issue.setNumOfForumPosts(12);
         issue.setNumOfUserImpacted(20);
-        issue.setContext("context123context123context123");
         issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
         issue.setCurrentStatus("ASSIGNED");
         issue.setPriority(3);
 
+        // And
+        issue.setContext("context");
+
+        // Then expected
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
 
+        // When
         issueRepository.storeIssue(issue);
     }
 

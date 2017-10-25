@@ -15,8 +15,8 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
-    private static final int ContextCharacterOverLimit = 256;
-    private static final int ContextLessCharacterLimit = 8;
+    private static final int CONTEXT_CHARACHTER_OVER_LIMIT = 256;
+    private static final int CONTEXT_LESS_CHARACTER_LIMIT = 8;
     private static final int IssueTitleOverLimit = 256;
     private static final int IssueTitleLessThanLimit = 8;
     private static final int IssueSummaryOverLimit = 256;
@@ -33,9 +33,9 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
         } else if (cluster.getContext() == "") {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_IS_EMPTY_MSG);
-        } else if (cluster.getContext().length() > ContextCharacterOverLimit) {
+        } else if (cluster.getContext().length() > CONTEXT_CHARACHTER_OVER_LIMIT) {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_IS_OVER_CHARACTER_LIMIT_MSG);
-        } else if (cluster.getContext().length() < ContextLessCharacterLimit) {
+        } else if (cluster.getContext().length() < CONTEXT_LESS_CHARACTER_LIMIT) {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
         } else if (cluster.getTitle() == "") {
             throw new RuntimeException(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_EMPTY);
