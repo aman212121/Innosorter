@@ -6,8 +6,6 @@ public class ApplicationConstants {
 
     public final static String CLUSTER_CONTEXT_NOT_AVAILABLE_MSG = "Cluster does not have context.";
     public final static String CLUSTER_CONTEXT_IS_EMPTY_MSG = "Cluster context is empty.";
-    public final static String CLUSTER_NUM_OF_IMPACTED_USER_NOT_AVAILABLE_MSG = "Cluster does not have num of user impacted.";
-    public final static String CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG = "Cluster does not have issue title.";
     public final static String CLUSTER_ALREADY_HAS_THE_POST_MSG = "Cluster already has the post.";
 
     public final static String CLUSTER_CONTEXT_IS_OVER_CHARACTER_LIMIT_MSG = "Context Character Limit has exceeded";
