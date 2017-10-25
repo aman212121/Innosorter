@@ -2,7 +2,7 @@ package com.innohub.innosorter.authentication;
 
 import java.util.HashMap;
 
-import com.innohub.innosorter.userClassHierarchy.UserType;
+import com.innohub.innosorter.entity.UserType;
 import com.innohub.innosorter.util.ApplicationConstants;
 
 public class RegistrationServiceDao {
