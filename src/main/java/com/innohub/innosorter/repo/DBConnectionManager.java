@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class DBConnectionManager {
@@ -13,7 +14,7 @@ public class DBConnectionManager {
     protected static Connection dbConnection;
     
     
-    public static Connection setup(String uriParam, String userName, String password) throws Exception {
+    public static Connection setup(String uriParam, String userName, String password) throws SQLException {
           if(uriParam == null){
               uri = "jdbc:mysql://localhost:3306/innosorter";
           } else {
@@ -26,7 +27,7 @@ public class DBConnectionManager {
           dbConnection = DriverManager.getConnection(uri, userName, password);
           
           if (dbConnection == null) {
-              throw new Exception("Failed to make connection!");
+              throw new RuntimeException("Failed to make connection!");
           }
           return dbConnection;
     }

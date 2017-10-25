@@ -32,6 +32,7 @@ public class IssueRepositoryServiceTest {
     @Test
     public void shouldNotStoreIssuesWithoutContext() {
 
+        //Given
         Cluster issue = new Cluster();
         issue.setTitle("IssueName1");
         issue.setSummary("Javascript Not Working");
@@ -39,6 +40,8 @@ public class IssueRepositoryServiceTest {
         issue.setNumOfUserImpacted(20);
         issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
         issue.setCurrentStatus("ASSIGNED");
+
+        //Then
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
 
@@ -54,10 +57,12 @@ public class IssueRepositoryServiceTest {
         issue.setSummary("Javascript Not Working");
         issue.setNumOfForumPosts(12);
         issue.setNumOfUserImpacted(20);
-        issue.setContext(null);
         issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
         issue.setCurrentStatus("ASSIGNED");
         issue.setPriority(3);
+
+        //And
+        issue.setContext(null);
 
         if (issue.getContext() == null || issue.getContext() == "") {
             expected.expect(RuntimeException.class);

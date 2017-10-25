@@ -29,14 +29,14 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     ResultSet rest;
 
     public void validateCluster(Cluster cluster) {
-        if (cluster.getContext() == "") {
+        if (cluster.getContext() == null) {
+            throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
+        } else if (cluster.getContext() == "") {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_IS_EMPTY_MSG);
         } else if (cluster.getContext().length() > ContextCharacterOverLimit) {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_IS_OVER_CHARACTER_LIMIT_MSG);
         } else if (cluster.getContext().length() < ContextLessCharacterLimit) {
             throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
-        } else if (cluster.getContext() == null) {
-            throw new RuntimeException(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
         } else if (cluster.getTitle() == "") {
             throw new RuntimeException(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_EMPTY);
         } else if (cluster.getTitle() == null) {
@@ -81,11 +81,10 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         }
     }
 
-    public void storeIssue(Cluster issue) {
+    public void storeIssue(Cluster issue){
         try {
             validateCluster(issue);
             conn = DBConnectionManager.setup(DB_URL, user, pass);
-//				
 
             String query = " insert into cluster (title, summary, numofforumposts, numofUserImpacted, context,priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
 
@@ -103,14 +102,9 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
             conn.close();
         } catch (SQLException e) {
-            System.out.println((e.toString()));
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Exception happened when trying to store cluster in DB: " + e.toString());
+            throw new RuntimeException("");
         }
-
-        System.out.println("Connecting to a selected database... ");
     }
     
     public void deleteClusterIssue(Cluster issue1) {
