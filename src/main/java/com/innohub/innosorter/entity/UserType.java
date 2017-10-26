@@ -1,4 +1,4 @@
-package com.innohub.innosorter.userClassHierarchy;
+package com.innohub.innosorter.entity;
 
 public enum UserType {
 

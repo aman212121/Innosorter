@@ -1,6 +1,6 @@
 package com.innohub.innosorter.repo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
@@ -16,87 +16,571 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-
 public class IssueRepositoryServiceTest {
 
-	private IssueRepositoryService issueRepository;
-    
-	@Before
-	public void SetUp() {
-		issueRepository = new IssueRepositoryServiceImpl();
-	}
+    private IssueRepositoryService issueRepository;
 
-	@Rule
-	public ExpectedException expected = ExpectedException.none();
+    @Before
+    public void SetUp() {
+        issueRepository = new IssueRepositoryServiceImpl();
+    }
 
-	@Test
-	public void shouldNotStoreIssuesWithoutContext() {
+    @Rule
+    public ExpectedException expected = ExpectedException.none();
 
-		Cluster issue = new Cluster();
-		issue.setTitle("IssueName1");
-		issue.setSummary("Javascript Not Working");
-		issue.setNumOfRelatedPosts(12);
-		issue.setNumOfUserImpacted(20);
-		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
-		issue.setCurrentStatus("ASSIGNED");
-		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
+    // 69
+    @Test
+    public void shouldNotStoreIssuesWithoutContext() {
 
-		issueRepository.storeIssue(issue);
-	}
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName1");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
 
-	@Test
-	public void shouldNotStoreIssuesWithoutUsersImpacted() {
-		Cluster issue = new Cluster();
-		issue.setTitle("IssueName1");
-		issue.setSummary("Javascript Not Working");
-		issue.setNumOfRelatedPosts(12);
-		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
-		issue.setCurrentStatus("ASSIGNED");
-		issue.setContext("CONTEXT");
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
 
-		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.CLUSTER_NUM_OF_IMPACTED_USER_NOT_AVAILABLE_MSG);
+        issueRepository.storeIssue(issue);
+    }
 
-		issueRepository.storeIssue(issue);
-	}
+    // 70
+    @Test
+    public void shouldNotStoreIssuesWhenContextIsNull() {
 
-	@Test
-	public void shouldNotStoreIssueWithoutIssueTitle() {
-		Cluster issue = new Cluster();
-		issue.setSummary("Javascript Not Working");
-		issue.setNumOfRelatedPosts(12);
-		issue.setNumOfUserImpacted(20);
-		issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
-		issue.setContext("CONTEXT");
-		issue.setCurrentStatus("ASSIGNED");
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName2");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
 
-		expected.expect(RuntimeException.class);
-		expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_NOT_AVAILABLE_MSG);
+        // And
+        issue.setContext(null);
 
-		issueRepository.storeIssue(issue);
+        if (issue.getContext() == null || issue.getContext() == "") {
+            expected.expect(RuntimeException.class);
+            expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
+        }
+        issueRepository.storeIssue(issue);
+    }
 
-	}
-	
-	@Test
-	public void shouldNotAllowDeveloperUserToDeleteCluster(){
-		
-		expected.expect(RuntimeException.class);
-        expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
-        
+    // 71
+    @Test
+    public void shouldNotStoreIssuesWhenContextIsEmpty() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName3");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(15);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setContext("");
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_EMPTY_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 72
+    @Test
+    public void shouldNotStoreIssuesWhenContextIsOverTheCharacterLimit() {
+
+        // Gvien
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName4");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setContext("context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_OVER_CHARACTER_LIMIT_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 73
+    @Test
+    public void shouldNotStoreIssuesWhenContextIsLessThanCharacterLimit() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName4");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setContext("context");
+
+        // Then expected
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 74
+    @Test
+    public void shouldNotStoreIssuesWhenUsersImpactedIsNull() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName1");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setContext("CONTEXT123");
+        issue.setPriority(2);
+
+        // And
+        issue.setNumOfUserImpacted(null);
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_NULL_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 75
+    @Test
+    public void shouldNotStoreIssuesWhenUsersImpactedIsNegativeValue() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName1");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setContext("CONTEXT123");
+        issue.setPriority(3);
+
+        // And
+        issue.setNumOfUserImpacted(-1);
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_NEGATIVE_VALUE_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 77
+    @Test
+    public void shouldNotStoreIssuesWhenUsersImpactedIsZero() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("IssueName1");
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setContext("CONTEXT123");
+        issue.setPriority(3);
+
+        // And
+        issue.setNumOfUserImpacted(0);
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_ZERO_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 80
+    @Test
+    public void shouldNotStoreIssuesWhenIssueTitleIsOverTheCharacterLimit() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setTitle("context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_OVER_THE_CHARACTER_LIMIT_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 81
+    @Test
+    public void shouldNotStoreIssuesWhenIssueTitleIsLessThanCharacterLimit() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setTitle("D");
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_LESS_THAN_CHARACTER_LIMIT_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 82
+    @Test
+    public void shouldNotStoreIssuesWhenSummaryIsNull() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setSummary(null);
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_NULL_MSG);
+
+        // when
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 83
+    @Test
+    public void shouldNotStoreIssuesWhenSummaryIsEmpty() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        issue.setSummary("");
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_EMPTY_MSG);
+
+        // Then
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 84
+    @Test
+    public void shouldNotStoreIssuesWhenSummaryOverTheCharacterLimit() {
+
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        issue.setSummary("context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123context123");
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_OVER_THE_CHARACTER_LIMIT_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 86
+    @Test
+    public void shouldNotStoreIssuesWhenNumberOfForumPostsIsNull() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        issue.setNumOfForumPosts(null);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NULL_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 92
+    @Test
+    public void shouldNotStoreIssuesWhenPriorityIsZero() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfForumPosts(4);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+
+        issue.setPriority(0);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_ZERO_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 93
+    @Test
+    public void shouldNotStoreIssuesWhenPriorityIsNegativeValue() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfForumPosts(4);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+
+        issue.setPriority(-2);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 78
+    @Test
+    public void shouldNotStoreIssuesWhenIssueTitleIsNull() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setTitle(null);
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_NULL);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 79
+    @Test
+    public void shouldNotStoreIssuesWhenIssueTitleIsEmpty() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setSummary("Javascript Not Working");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setTitle("");
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_EMPTY);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 85
+    @Test
+    public void shouldNotStoreIssuesWhenSummaryIsLessThanCharacterLimit() {
+        // When
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setNumOfForumPosts(12);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        // And
+        issue.setSummary("D");
+
+        // Then
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_LESS_THAN_CHARACTER_LIMIT_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+    }
+
+    // 87
+    @Test
+    public void shouldNotStoreIssuesWhenNumberOfForumPostsIsZero() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        issue.setNumOfForumPosts(0);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_ZERO_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 88
+    @Test
+    public void shouldNotStoreIssuesWhenNumberOfForumPostsIsNegativeValue() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(3);
+
+        issue.setNumOfForumPosts(-1);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 90
+    @Test
+    public void shouldNotStoreIssuesWhenPriorityIsNull() {
+        // Given
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfForumPosts(4);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(null);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NULL_MSG);
+
+        // When
+        issueRepository.storeIssue(issue);
+
+    }
+
+    // 148
+    @Test
+    public void shouldAllowAdminUserToDeleteCluster() {
+
+        // Given
         Cluster cluster = new Cluster();
-		Developer developer = new Developer("Dev");
-		
-		issueRepository.deleteCluster(developer, cluster);
-       
-	}
-	
-	@Test
-	public void shouldAllowAdminUserToDeleteCluster(){
-		
-		Cluster cluster = new Cluster();
-		Administrator admin = new Administrator("Admin");
-		
-		assertTrue(issueRepository.deleteCluster(admin, cluster));
-	}
+        Administrator admin = new Administrator("Admin");
+
+        // When
+        assertTrue(issueRepository.deleteCluster(admin, cluster));
+    }
+
+    // 147
+    @Test
+    public void shouldNotAllowDeveloperUserToDeleteCluster() {
+
+        // Given
+        Cluster cluster = new Cluster();
+        Developer developer = new Developer("Dev");
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
+
+        // When
+        issueRepository.deleteCluster(developer, cluster);
+
+    }
+
 }
