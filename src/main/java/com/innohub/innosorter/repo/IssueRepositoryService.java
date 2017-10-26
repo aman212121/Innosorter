@@ -5,16 +5,21 @@ import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.entity.User;
 
 public interface IssueRepositoryService {
-	void storeIssue(Cluster cluster);
 
-  void addPostToCluster(Cluster cluster, Post post);
+    void storeIssue(Cluster cluster);
 
-  boolean checkClusterExist(int clusterID);
-    
-  boolean checkPostExist(int postID);
+    void deleteClusterIssue(Cluster issue);
 
-  boolean deleteCluster(User user, Cluster cluster);
-  
-  void removePostFromCluster(Cluster cluster, Post post);
+    void updateClusterIssue(Cluster newIssue);
+
+    void addPostToCluster(Cluster cluster, Post post);
+
+    boolean checkClusterExist(int clusterID);
+
+    boolean checkPostExist(int postID);
+
+    boolean deleteCluster(User user, Cluster cluster);
+
+    void removePostFromCluster(Cluster cluster, Post post);
 
 }
