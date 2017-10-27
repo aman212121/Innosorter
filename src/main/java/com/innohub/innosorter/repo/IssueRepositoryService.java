@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.entity.User;
 
@@ -28,4 +29,6 @@ public interface IssueRepositoryService {
     Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException;
 
     List <Cluster> getListOfClusters();
+
+    void assignIssueToUser(Cluster issueOne, Developer developer);
 }

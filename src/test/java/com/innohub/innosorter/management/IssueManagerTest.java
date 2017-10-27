@@ -289,7 +289,7 @@ public class IssueManagerTest {
         //When
         issueManager.removePostFromCluster(admin, clusterOne, postOne);
     }
-    //shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster
+
     @Test
     public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster() throws SQLException{
         //Given
@@ -309,6 +309,19 @@ public class IssueManagerTest {
 
         //When
         issueManager.removePostFromCluster(admin, clusterOne, postOne);
+    }
+
+    @Test
+    public void shouldAllowAdminUserToAssingIssueToDeveloperUserWhoHaveOtherIssuesAssigned() throws SQLException{
+        //Given
+        Cluster issueOne = new Cluster();
+        Developer developer = new Developer("DeveloperOne");
+
+        //And
+        Mockito.doNothing().when(mockIssueRepositoryService).assignIssueToUser(issueOne, developer);
+
+        //When
+        issueManager.assignIssueToUser(issueOne, developer);
     }
 
 }
