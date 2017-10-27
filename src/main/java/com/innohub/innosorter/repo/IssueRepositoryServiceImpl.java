@@ -91,31 +91,6 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         }
     }
 
-    public void storeIssue(Cluster issue) {
-        try {
-            validateCluster(issue);
-
-            String query = " insert into cluster (title, summary, numofforumposts, numofUserImpacted, context,priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
-
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
-            preparedStmt.setString(1, issue.getTitle());
-            preparedStmt.setString(2, issue.getSummary());
-            preparedStmt.setInt(3, issue.getNumOfForumPosts());
-            preparedStmt.setInt(4, issue.getNumOfUserImpacted());
-            preparedStmt.setString(5, issue.getContext());
-            preparedStmt.setInt(6, issue.getPriority());
-            preparedStmt.setString(7, issue.getAssignees().toString());
-            preparedStmt.setString(8, "Pending");
-            preparedStmt.execute();
-
-            preparedStmt.close();
-        } catch (SQLException e) {
-            System.out.println("Exception happened when trying to store cluster in DB: " + e.toString());
-            throw new RuntimeException("");
-        }
-    }
-
     public void deleteClusterIssue(Cluster issue1) {
         try {
             // validateCluster(issue1);
@@ -227,9 +202,6 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             preparedStmt.close();
         } catch (SQLException e) {
             System.out.println((e.toString()));
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

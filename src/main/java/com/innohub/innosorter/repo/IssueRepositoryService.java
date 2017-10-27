@@ -6,8 +6,6 @@ import com.innohub.innosorter.entity.User;
 
 public interface IssueRepositoryService {
 
-    void storeIssue(Cluster cluster);
-
     void deleteClusterIssue(Cluster issue);
 
     void updateClusterIssue(Cluster newIssue);

@@ -65,7 +65,7 @@ public class IssueRepositoryServiceTest {
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
 
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 70
@@ -88,7 +88,7 @@ public class IssueRepositoryServiceTest {
             expected.expect(RuntimeException.class);
             expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
         }
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 71
@@ -112,7 +112,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_EMPTY_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 72
@@ -137,7 +137,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_OVER_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 73
@@ -162,7 +162,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 74
@@ -187,7 +187,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_NULL_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 75
@@ -212,7 +212,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_NEGATIVE_VALUE_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 77
@@ -237,7 +237,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_ZERO_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 80
@@ -261,7 +261,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_OVER_THE_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -287,7 +287,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_LESS_THAN_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -313,7 +313,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_NULL_MSG);
 
         // when
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -337,7 +337,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_EMPTY_MSG);
 
         // Then
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -360,7 +360,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_OVER_THE_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -383,7 +383,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NULL_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -406,7 +406,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_ZERO_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -429,7 +429,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -454,7 +454,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_NULL);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -479,7 +479,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_EMPTY);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -504,7 +504,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_LESS_THAN_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 87
@@ -526,7 +526,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_ZERO_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -549,7 +549,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -571,7 +571,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NULL_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -618,5 +618,4 @@ public class IssueRepositoryServiceTest {
         // Then
         Mockito.verify(query).execute();
     }
-
 }
