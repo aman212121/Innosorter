@@ -74,7 +74,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             throw new RuntimeException(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_ZERO_MSG);
         } else if (cluster.getNumOfForumPosts().toString() == "") {
             throw new RuntimeException(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_EMPTY_MSG);
-        } else if(cluster.getNumOfForumPosts() < 0 ) {
+        } else if (cluster.getNumOfForumPosts() < 0) {
             throw new RuntimeException(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
 
             // ========= Validate Priority
@@ -176,28 +176,32 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     public boolean deleteCluster(User user, Cluster cluster) {
 
         if (!(user instanceof Administrator)) {
-        	
+
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
         } else {
             return true;
         }
     }
 
+    @Override
     public void addPostToCluster(Cluster clusterOne, Post postOne) {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public boolean checkClusterExist(int clusterID) {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public boolean checkPostExist(int postID) {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public void removePostFromCluster(Cluster cluster, Post post) {
         // TODO Auto-generated method stub
 
