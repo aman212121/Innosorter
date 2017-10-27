@@ -39,7 +39,7 @@ public class IssueRepositoryServiceTest {
 
     public Cluster buildACorrectClusterIssueObject() {
         Cluster issue = new Cluster();
-        issue.setClusterID(1_000_000);
+        issue.setClusterID(1001001);
         issue.setTitle("Error 404");
         issue.setSummary("JavaScript not working");
         issue.setNumOfForumPosts(4);
