@@ -1,6 +1,7 @@
 package com.innohub.innosorter.repo;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Post;
@@ -25,4 +26,6 @@ public interface IssueRepositoryService {
     void removePostFromCluster(Cluster cluster, Post post) throws SQLException;
 
     Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException;
+
+    List <Cluster> getListOfClusters();
 }

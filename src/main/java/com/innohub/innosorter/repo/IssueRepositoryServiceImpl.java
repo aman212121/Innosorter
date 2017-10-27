@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.sql.PreparedStatement;
 
 import com.innohub.innosorter.entity.Administrator;
@@ -259,6 +260,12 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         }
         return false;
 
+    }
+
+    @Override
+    public List<Cluster> getListOfClusters() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
