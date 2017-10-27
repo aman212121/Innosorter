@@ -62,12 +62,15 @@ public class IssueManagerTest {
     public void shouldAllowAdminUserToAddForumPostThatExistsInOtherClusterIntoCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
+        clusterOne.setClusterID(1000);
         Cluster clusterTwo = new Cluster();
+        clusterTwo.setClusterID(1001);
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
         //And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
+        Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterTwo.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
         //And
