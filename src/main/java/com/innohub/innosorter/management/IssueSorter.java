@@ -29,10 +29,4 @@ public class IssueSorter {
         return Arrays.asList(sortedList);
 
     }
-
-    public static int[] doSelectionSort(int[] arr) {
-
-        return arr;
-    }
-
 }
