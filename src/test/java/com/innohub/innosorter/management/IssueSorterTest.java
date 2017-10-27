@@ -24,7 +24,7 @@ public class IssueSorterTest {
     IssueSorter issueSorter;
 
     @Mock
-    IssueRepositoryService IssueRepositoryService;
+    IssueRepositoryService issueRepositoryService;
 
     @Before
     public void setUp() {
@@ -47,7 +47,7 @@ public class IssueSorterTest {
     }
 
     @Test
-    void shouldReturnListOfIssuesSortedByNumberOfRelatedPosts() {
+    public void shouldReturnListOfIssuesSortedByNumberOfRelatedPosts() {
         // Given
         Cluster issueOne = buildACorrectClusterIssueObject();
         issueOne.setClusterID(1000);
@@ -56,20 +56,20 @@ public class IssueSorterTest {
         issueTwo.setClusterID(1001);
         issueTwo.setNumOfForumPosts(200);
         Cluster issueThree = buildACorrectClusterIssueObject();
-        issueTwo.setClusterID(1002);
-        issueTwo.setNumOfForumPosts(150);
+        issueThree.setClusterID(1002);
+        issueThree.setNumOfForumPosts(150);
 
         // And
         List<Cluster> listOfClusterFromRepo = Arrays.asList(issueOne, issueTwo, issueThree);
-        Mockito.doReturn(listOfClusterFromRepo).when(IssueRepositoryService).getListOfClusters();
+        Mockito.doReturn(listOfClusterFromRepo).when(issueRepositoryService).getListOfClusters();
 
         // When
         List<Cluster> sortedListOfCluster = issueSorter.getSortedListOfIssues();
 
         // Then
-        assertTrue(sortedListOfCluster.get(0).getNumOfForumPosts() > sortedListOfCluster.get(1).getNumOfForumPosts());
-        assertTrue(sortedListOfCluster.get(1).getNumOfForumPosts() > sortedListOfCluster.get(2).getNumOfForumPosts());
-        assertTrue(sortedListOfCluster.get(0).getNumOfForumPosts() > sortedListOfCluster.get(2).getNumOfForumPosts());
+        assertTrue(sortedListOfCluster.get(0).getNumOfForumPosts() < sortedListOfCluster.get(1).getNumOfForumPosts());
+        assertTrue(sortedListOfCluster.get(1).getNumOfForumPosts() < sortedListOfCluster.get(2).getNumOfForumPosts());
+        assertTrue(sortedListOfCluster.get(0).getNumOfForumPosts() < sortedListOfCluster.get(2).getNumOfForumPosts());
     }
 
 }
