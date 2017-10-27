@@ -311,7 +311,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldAllowAdminUserToAssingIssueToDeveloperUserWhoHaveOtherIssuesAssigned() throws SQLException {
+    public void shouldAllowAdminUserToAssingIssueToDeveloperUser() throws SQLException {
         // Given
         Cluster issueOne = new Cluster();
         Developer developer = new Developer("DeveloperOne");
