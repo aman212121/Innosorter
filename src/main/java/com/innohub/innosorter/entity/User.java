@@ -1,23 +1,23 @@
 package com.innohub.innosorter.entity;
 
 public class User {
-	private String userId;
 
-	public String getUserId() {
-		return userId;
-	}
+    private String userId;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	
-	private String name;
+    public String getUserId() {
+        return userId;
+    }
 
-	public User(String name) {
-		this.name = name;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public User() {
-	}
+    private String name;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User() {
+    }
 }
