@@ -317,10 +317,13 @@ public class IssueManagerTest {
         Developer developer = new Developer("DeveloperOne");
 
         // And
-        Mockito.doNothing().when(mockIssueRepositoryService).assignIssueToUser(issueOne, developer);
+        Mockito.doNothing().when(mockIssueRepositoryService).assignIssueToUser(issueOne.getClusterID(), developer.getUserId());
 
         // When
-        issueManager.assignIssueToUser(issueOne, developer);
+        issueManager.assignIssueToUser(issueOne.getClusterID(), developer.getUserId());
+
+        // Then
+        Mockito.verify(mockIssueRepositoryService).assignIssueToUser(issueOne.getClusterID(), developer.getUserId());
     }
 
 }

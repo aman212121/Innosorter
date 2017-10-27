@@ -270,7 +270,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     }
 
     @Override
-    public void assignIssueToUser(Cluster issueOne, Developer developer) {
+    public void assignIssueToUser(Integer clusterId, String string) {
         // TODO Auto-generated method stub
 
     }

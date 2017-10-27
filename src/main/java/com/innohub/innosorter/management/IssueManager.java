@@ -52,7 +52,8 @@ public class IssueManager {
         
     }
 
-    public void assignIssueToUser(Cluster issueOne, Developer developer) {
+    public void assignIssueToUser(Integer clusterId, String string) {
+        issueRepositoryService.assignIssueToUser(clusterId, string);
         // TODO Auto-generated method stub
         
     }

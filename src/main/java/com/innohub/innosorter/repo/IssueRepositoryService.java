@@ -28,7 +28,7 @@ public interface IssueRepositoryService {
 
     Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException;
 
-    List <Cluster> getListOfClusters();
+    List<Cluster> getListOfClusters();
 
-    void assignIssueToUser(Cluster issueOne, Developer developer);
+    void assignIssueToUser(Integer clusterId, String string);
 }
