@@ -683,4 +683,23 @@ public class IssueRepositoryServiceTest {
         Mockito.verify(query, Mockito.times(issue.getPosts().size() + 1)).execute();
 
     }
+
+    @Test
+    public void shouldDeleteRowInForumPostMappingTableWhenUpdateTheClusterToDeleteForumPostFromCluster() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        Post postTwo = new Post();
+        issue.setPosts(Arrays.asList(postOne, postTwo));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.startsWith("DELETE FROM"));
+
+        // When
+        issueRepository.removePostFromCluster(issue, postOne);
+
+        // Then
+        Mockito.verify(query).execute();
+    }
 }
