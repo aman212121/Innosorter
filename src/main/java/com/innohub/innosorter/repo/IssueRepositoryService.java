@@ -1,18 +1,20 @@
 package com.innohub.innosorter.repo;
 
+import java.sql.SQLException;
+
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.entity.User;
 
 public interface IssueRepositoryService {
 
-    void storeIssue(Cluster cluster);
-
     void deleteClusterIssue(Cluster issue);
 
     void updateClusterIssue(Cluster newIssue);
 
-    void addPostToCluster(Cluster cluster, Post post);
+    void insertCluster(Cluster issue);
+
+    void addPostToCluster(Integer clusterId, Post post) throws SQLException;
 
     boolean checkClusterExist(int clusterID);
 
@@ -20,6 +22,7 @@ public interface IssueRepositoryService {
 
     boolean deleteCluster(User user, Cluster cluster);
 
-    void removePostFromCluster(Cluster cluster, Post post);
+    void removePostFromCluster(Cluster cluster, Post post) throws SQLException;
 
+    Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException;
 }

@@ -2,31 +2,55 @@ package com.innohub.innosorter.repo;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Developer;
+import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.entity.User;
-import com.innohub.innosorter.repo.IssueRepositoryService;
 import com.innohub.innosorter.util.ApplicationConstants;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class IssueRepositoryServiceTest {
 
-    private IssueRepositoryService issueRepository;
+    private static IssueRepositoryService issueRepository;
 
-    @Before
-    public void SetUp() {
-        issueRepository = new IssueRepositoryServiceImpl();
+    private static Connection mockConnection;
+
+    @BeforeClass
+    public static void SetUp() {
+        mockConnection = Mockito.mock(Connection.class);
+
+        issueRepository = Mockito.spy(new IssueRepositoryServiceImpl(mockConnection));
     }
 
     @Rule
     public ExpectedException expected = ExpectedException.none();
+
+    public Cluster buildACorrectClusterIssueObject() {
+        Cluster issue = new Cluster();
+        issue.setClusterID(1001001);
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfForumPosts(4);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(10);
+        issue.setPosts(new ArrayList<Post>());
+        return issue;
+    }
 
     // 69
     @Test
@@ -45,7 +69,7 @@ public class IssueRepositoryServiceTest {
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
 
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 70
@@ -68,7 +92,7 @@ public class IssueRepositoryServiceTest {
             expected.expect(RuntimeException.class);
             expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_NOT_AVAILABLE_MSG);
         }
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 71
@@ -92,7 +116,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_EMPTY_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 72
@@ -117,7 +141,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_OVER_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 73
@@ -142,7 +166,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_CONTEXT_IS_LESS_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 74
@@ -167,7 +191,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_NULL_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 75
@@ -192,7 +216,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_NEGATIVE_VALUE_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 77
@@ -217,7 +241,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_USERS_IMPACTED_IS_ZERO_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 80
@@ -241,7 +265,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_OVER_THE_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -267,7 +291,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_LESS_THAN_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -293,7 +317,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_NULL_MSG);
 
         // when
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -317,7 +341,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_EMPTY_MSG);
 
         // Then
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -340,7 +364,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_OVER_THE_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -363,7 +387,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NULL_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -386,7 +410,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_ZERO_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -409,7 +433,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -434,7 +458,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_NULL);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -459,7 +483,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_ISSUE_TITLE_IS_EMPTY);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -484,7 +508,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_SUMMARY_IS_LESS_THAN_CHARACTER_LIMIT_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
     }
 
     // 87
@@ -506,7 +530,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_ZERO_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -529,7 +553,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.CLUSTER_NO_FORUM_POSTS_IS_NEGATIVE_VALUE_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -551,7 +575,7 @@ public class IssueRepositoryServiceTest {
         expected.expectMessage(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_NULL_MSG);
 
         // When
-        issueRepository.storeIssue(issue);
+        issueRepository.insertCluster(issue);
 
     }
 
@@ -583,4 +607,120 @@ public class IssueRepositoryServiceTest {
 
     }
 
+    @Test
+    public void shouldNewRowIsAddedToClusterTableUponInsert() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
+
+        // When
+        issueRepository.insertCluster(issue);
+
+        // Then
+        Mockito.verify(query).execute();
+    }
+
+    @Test
+    public void shouldNotStoreIssueWhenListOfForumPostIdsAreNull() {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+
+        issue.setPosts(null);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_FORUM_POSTS_LIST_IS_NULL_MSG);
+
+        // When
+        issueRepository.insertCluster(issue);
+
+    }
+
+    @Test
+    public void shouldCreateNewRowInForumPostMappingTableWhenStoreNewClusterAndMappingAreNotExisitngForGivenForumPostAndCluster() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        issue.setPosts(Arrays.asList(postOne));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue, postOne);
+
+        // When
+        issueRepository.insertCluster(issue);
+
+        // Then
+        Mockito.verify(issueRepository).checkClusterPostRelationExist(issue, postOne);
+        // execute will be called: n + 1; to add isse(1) + to add posts relations (n)
+        Mockito.verify(query, Mockito.times(issue.getPosts().size() + 1)).execute();
+    }
+
+    @Test
+    public void shouldNotCreateNewRowInForumPostMappingTableWhenStoreNewClusterAndMappingAreNotExisitngForGivenForumPostAndCluster() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        Post postTwo = new Post();
+
+        issue.setPosts(Arrays.asList(postOne));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue, postOne);
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue, postTwo);
+
+        // When
+        issueRepository.insertCluster(issue);
+
+        // Then
+        Mockito.verify(issueRepository).checkClusterPostRelationExist(issue, postOne);
+        Mockito.verify(issueRepository, Mockito.times(0)).checkClusterPostRelationExist(issue, postTwo);
+        // execute will be called: n + 1; to add isse(1) + to add posts relations (n)
+        Mockito.verify(query, Mockito.times(issue.getPosts().size() + 1)).execute();
+
+    }
+
+    @Test
+    public void shouldDeleteRowInForumPostMappingTableWhenUpdateTheClusterToDeleteForumPostFromCluster() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        Post postTwo = new Post();
+        issue.setPosts(Arrays.asList(postOne, postTwo));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.startsWith("DELETE FROM"));
+
+        // When
+        issueRepository.removePostFromCluster(issue, postOne);
+
+        // Then
+        Mockito.verify(query).execute();
+    }
+
+    @Test
+    public void shouldUpdateNumberOfForumPostsInClusterWhenAddForumPostToCluster() throws SQLException{
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        Post postTwo = new Post();
+        issue.setPosts(Arrays.asList(postOne));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.startsWith("INSERT INTO CLUSTER_POST"));
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.startsWith("UPDATE CLUSTER"));
+
+        // When
+        issueRepository.addPostToCluster(issue.getClusterID(), postTwo);
+
+        // Then
+        Mockito.verify(query, Mockito.times(2)).execute();
+    }
 }

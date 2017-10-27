@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 
 import com.innohub.innosorter.entity.Administrator;
@@ -23,10 +24,12 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     private static final int IssueSummaryLessThanLimit = 8;
     private static String DB_URL = "jdbc:mysql://localhost:3306/innosorter";
     // Database credentials
-    private static String user = "root";
-    private static String pass = "";
-    private static Connection conn;
+    private final Connection dbConnection;
     ResultSet rest;
+
+    public IssueRepositoryServiceImpl(Connection conn) {
+        this.dbConnection = conn;
+    }
 
     public void validateCluster(Cluster cluster) {
         // ========= Validate context
@@ -86,49 +89,25 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             throw new RuntimeException(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_ZERO_MSG);
         } else if (cluster.getPriority().toString() == "") {
             throw new RuntimeException(ApplicationConstants.PRIORITY_OF_FORUM_POSTS_IS_EMPTY_MSG);
-        }
-    }
 
-    public void storeIssue(Cluster issue) {
-        try {
-            validateCluster(issue);
-            conn = DBConnectionManager.setup(DB_URL, user, pass);
-
-            String query = " insert into cluster (title, summary, numofforumposts, numofUserImpacted, context,priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
-
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, issue.getTitle());
-            preparedStmt.setString(2, issue.getSummary());
-            preparedStmt.setInt(3, issue.getNumOfForumPosts());
-            preparedStmt.setInt(4, issue.getNumOfUserImpacted());
-            preparedStmt.setString(5, issue.getContext());
-            preparedStmt.setInt(6, issue.getPriority());
-            preparedStmt.setString(7, issue.getAssignees().toString());
-            preparedStmt.setString(8, "Pending");
-            preparedStmt.execute();
-
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println("Exception happened when trying to store cluster in DB: " + e.toString());
-            throw new RuntimeException("");
+            // ========= Validate List of posts
+        } else if (cluster.getPosts() == null) {
+            throw new RuntimeException(ApplicationConstants.CLUSTER_FORUM_POSTS_LIST_IS_NULL_MSG);
         }
     }
 
     public void deleteClusterIssue(Cluster issue1) {
         try {
             // validateCluster(issue1);
-            conn = DBConnectionManager.setup(DB_URL, user, pass);
-//              
 
             String query = " delete from cluster where title =" + "?";
 
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
             preparedStmt.setString(1, issue1.getTitle());
             preparedStmt.execute();
 
-            conn.close();
+            preparedStmt.close();
         } catch (SQLException e) {
             System.out.println((e.toString()));
             e.printStackTrace();
@@ -143,13 +122,11 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     public void updateClusterIssue(Cluster issueNew) {
         try {
             validateCluster(issueNew);
-            conn = DBConnectionManager.setup(DB_URL, user, pass);
-//              
 
             String query = " update cluster  set title = ?, summary = ?, numofforumposts = ?, numofUserImpacted = ?, context = ?,priority = ?,assignees = ?,currentStatus = ?)" + " values (?, ?, ?, ?, ?,?,?,?)";
 
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
 
             preparedStmt.setString(1, issueNew.getTitle());
             preparedStmt.setString(2, issueNew.getSummary());
@@ -161,7 +138,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             preparedStmt.setString(8, "Pending");
             preparedStmt.execute();
 
-            conn.close();
+            preparedStmt.close();
         } catch (SQLException e) {
             System.out.println((e.toString()));
             e.printStackTrace();
@@ -184,8 +161,21 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     }
 
     @Override
-    public void addPostToCluster(Cluster clusterOne, Post postOne) {
-        // TODO Auto-generated method stub
+    public void addPostToCluster(Integer clusterId, Post post) throws SQLException {
+        String query = "INSERT INTO CLUSTER_POST  (CLUSTER_ID, POST_ID)" + " values (?, ?)";
+
+        PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
+
+        preparedStatement.setInt(1, clusterId);
+        preparedStatement.setInt(2, post.getPostID());
+        preparedStatement.execute();
+
+        preparedStatement.close();
+
+        query = "UPDATE CLUSTER SET NUMBER_OF_FORUM_POSTS = SET NUMBER_OF_FORUM_POSTS + 1 where  CLUSTER_ID = ? ";
+        preparedStatement = dbConnection.prepareStatement(query);
+        preparedStatement.setInt(1, clusterId);
+        preparedStatement.execute();
 
     }
 
@@ -202,8 +192,73 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     }
 
     @Override
-    public void removePostFromCluster(Cluster cluster, Post post) {
-        // TODO Auto-generated method stub
+    public void removePostFromCluster(Cluster issue, Post post) throws SQLException {
+        PreparedStatement statement = dbConnection.prepareStatement("DELETE FROM CLUSTER_POST WHERE CLUSTER_ID = ? AND POST_ID = ?");
+        statement.setInt(1, issue.getClusterID());
+        statement.setInt(2, post.getPostID());
+
+        statement.execute();
+    }
+
+    @Override
+    public void insertCluster(Cluster newIssue) {
+        try {
+            validateCluster(newIssue);
+
+            String query = "INSERT INTO CLUSTER  (title, summary, numofforumposts, numofUserImpacted, context, priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
+
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
+
+            preparedStatement.setString(1, newIssue.getTitle());
+            preparedStatement.setString(2, newIssue.getSummary());
+            preparedStatement.setInt(3, newIssue.getNumOfForumPosts());
+            preparedStatement.setInt(4, newIssue.getNumOfUserImpacted());
+            preparedStatement.setString(5, newIssue.getContext());
+            preparedStatement.setInt(6, newIssue.getPriority());
+            preparedStatement.setString(7, newIssue.getAssignees().toString());
+            preparedStatement.setString(8, "Pending");
+            preparedStatement.execute();
+
+            preparedStatement.close();
+
+            // After inserting cluster, now we should add cluster-post relation to CLUSTER_POST table
+            for (Post post : newIssue.getPosts()) {
+                if (!checkClusterPostRelationExist(newIssue, post)) {
+                    query = "INSERT INTO CLUSTER_POST  (CLUSTER_ID, POST_ID)" + " values (?, ?)";
+
+                    preparedStatement = dbConnection.prepareStatement(query);
+
+                    preparedStatement.setInt(1, newIssue.getClusterID());
+                    preparedStatement.setInt(2, post.getPostID());
+                    preparedStatement.execute();
+
+                    preparedStatement.close();
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println((e.toString()));
+            e.printStackTrace();
+        }
 
     }
+
+    @Override
+    public Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException {
+        PreparedStatement statement = dbConnection.prepareStatement("SELECT COUNT(*) FROM CLUSTER_POST WHERE CLUSTER_ID = ? AND POST_ID = ?");
+        statement.setInt(1, issue.getClusterID());
+        statement.setInt(2, post.getPostID());
+
+        ResultSet rs = statement.executeQuery();
+        if (rs.next()) {
+            statement.close();
+            if (rs.getInt(1) > 0)
+                return true;
+            else
+                return false;
+        }
+        return false;
+
+    }
+
 }

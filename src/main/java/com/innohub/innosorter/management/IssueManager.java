@@ -1,5 +1,7 @@
 package com.innohub.innosorter.management;
 
+import java.sql.SQLException;
+
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Post;
@@ -10,9 +12,13 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueManager {
 
-    IssueRepositoryService issueRepositoryService = new IssueRepositoryServiceImpl();
+    IssueRepositoryService issueRepositoryService;
 
-    public void addPostToCluser(User user, Cluster clusterOne, Post postOne) {
+    public IssueManager(IssueRepositoryService issueRepositoryService){
+        this.issueRepositoryService = issueRepositoryService;
+    }
+
+    public void addPostToCluser(User user, Cluster clusterOne, Post postOne) throws SQLException {
 
         if (!(user instanceof Administrator)) {
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
@@ -25,11 +31,11 @@ public class IssueManager {
                 throw new RuntimeException(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
             }
         }
-        issueRepositoryService.addPostToCluster(clusterOne, postOne);
+        issueRepositoryService.addPostToCluster(clusterOne.getClusterID(), postOne);
 
     }
 
-    public void removePostFromCluster(User user, Cluster clusterOne, Post postOne) {
+    public void removePostFromCluster(User user, Cluster clusterOne, Post postOne) throws SQLException {
         if (!(user instanceof Administrator)){
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
         }else {
