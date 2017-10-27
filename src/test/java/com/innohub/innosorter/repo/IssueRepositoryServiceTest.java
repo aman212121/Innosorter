@@ -2,6 +2,9 @@ package com.innohub.innosorter.repo;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import com.innohub.innosorter.entity.Administrator;
@@ -15,6 +18,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 public class IssueRepositoryServiceTest {
 
@@ -27,6 +31,19 @@ public class IssueRepositoryServiceTest {
 
     @Rule
     public ExpectedException expected = ExpectedException.none();
+
+    public Cluster buildACorrectClusterIssueObject() {
+        Cluster issue = new Cluster();
+        issue.setTitle("Error 404");
+        issue.setSummary("JavaScript not working");
+        issue.setNumOfForumPosts(4);
+        issue.setNumOfUserImpacted(20);
+        issue.setAssignees(Arrays.asList(new User("Karthik"), new User("Hesam")));
+        issue.setContext("CONTEXT123");
+        issue.setCurrentStatus("ASSIGNED");
+        issue.setPriority(10);
+        return issue;
+    }
 
     // 69
     @Test
@@ -581,6 +598,25 @@ public class IssueRepositoryServiceTest {
         // When
         issueRepository.deleteCluster(developer, cluster);
 
+    }
+
+    @Test
+    public void shouldNewRowIsAddedToClusterTableUponInsert() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        Connection mockConnection = Mockito.mock(Connection.class);
+        DBConnectionManager mockDbManager = Mockito.mock(DBConnectionManager.class);
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+
+        // And
+        Mockito.doReturn(mockConnection).when(mockDbManager).getConnection();
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
+
+        // When
+        issueRepository.insertCluster(issue);
+
+        // Then
+        Mockito.verify(query).execute();
     }
 
 }
