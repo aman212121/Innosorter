@@ -62,10 +62,14 @@ public class ApplicationConstants {
     public static final String NULL_USER_TYPE_MSG = "Null User Type";
     public static final String EMPTY_USER_TYPE_MSG = "Empty User Type";
     public static final String INVALID_USER_TYPE_MSG = "This User Type does not exist";
-    public static final String LARGE_USERNAME_MSG = "The entered password is too large";
+    public static final String LARGE_USERNAME_MSG = "The entered username is too large";
     public static final String LARGE_PASSWORD_MSG = "The entered password is too large";
-    public static final String CLUSTER_DOES_NOT_EXIST_MSG = "This cluster does not exist";
 
+    public static final String LOGIN_ERROR_MSG = "The username and the password is Invalid";
+    public static final String USER_NOT_LOGGEDIN_MSG = "user is not logged in";
+    public static final String USER_LOGGEDOUT_MSG = "User Logged out successfully";
+    public static final String USER_LOGGEDIN_MSG = "User Logged IN successfully";
+    public static final String CLUSTER_DOES_NOT_EXIST_MSG = "This cluster does not exist";
     public static final String CLUSTER_DOES_NOT_HAVE_SUCH_A_POST = "Cluster does not have such a post";
 
 }
