@@ -23,11 +23,13 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     private static final int IssueSummaryLessThanLimit = 8;
     private static String DB_URL = "jdbc:mysql://localhost:3306/innosorter";
     // Database credentials
-    private static String user = "root";
-    private static String pass = "";
-    private static Connection conn;
+    private final Connection dbConnection;
     ResultSet rest;
 
+    public IssueRepositoryServiceImpl(Connection conn) {
+        this.dbConnection = conn;
+    }
+    
     public void validateCluster(Cluster cluster) {
         // ========= Validate context
         if (cluster.getContext() == null) {
@@ -92,12 +94,11 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     public void storeIssue(Cluster issue) {
         try {
             validateCluster(issue);
-            conn = DBConnectionManager.setup(DB_URL, user, pass);
 
             String query = " insert into cluster (title, summary, numofforumposts, numofUserImpacted, context,priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
 
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
             preparedStmt.setString(1, issue.getTitle());
             preparedStmt.setString(2, issue.getSummary());
             preparedStmt.setInt(3, issue.getNumOfForumPosts());
@@ -108,7 +109,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             preparedStmt.setString(8, "Pending");
             preparedStmt.execute();
 
-            conn.close();
+            preparedStmt.close();
         } catch (SQLException e) {
             System.out.println("Exception happened when trying to store cluster in DB: " + e.toString());
             throw new RuntimeException("");
@@ -118,17 +119,15 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     public void deleteClusterIssue(Cluster issue1) {
         try {
             // validateCluster(issue1);
-            conn = DBConnectionManager.setup(DB_URL, user, pass);
-//              
 
             String query = " delete from cluster where title =" + "?";
 
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
             preparedStmt.setString(1, issue1.getTitle());
             preparedStmt.execute();
 
-            conn.close();
+            preparedStmt.close();
         } catch (SQLException e) {
             System.out.println((e.toString()));
             e.printStackTrace();
@@ -143,13 +142,11 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     public void updateClusterIssue(Cluster issueNew) {
         try {
             validateCluster(issueNew);
-            conn = DBConnectionManager.setup(DB_URL, user, pass);
-//              
 
             String query = " update cluster  set title = ?, summary = ?, numofforumposts = ?, numofUserImpacted = ?, context = ?,priority = ?,assignees = ?,currentStatus = ?)" + " values (?, ?, ?, ?, ?,?,?,?)";
 
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
 
             preparedStmt.setString(1, issueNew.getTitle());
             preparedStmt.setString(2, issueNew.getSummary());
@@ -161,7 +158,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
             preparedStmt.setString(8, "Pending");
             preparedStmt.execute();
 
-            conn.close();
+            preparedStmt.close();
         } catch (SQLException e) {
             System.out.println((e.toString()));
             e.printStackTrace();
@@ -204,6 +201,37 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     @Override
     public void removePostFromCluster(Cluster cluster, Post post) {
         // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void insertCluster(Cluster newIssue) {
+        try {
+            validateCluster(newIssue);
+
+            String query = "INSERT INTO cluster  (title, summary, numofforumposts, numofUserImpacted, context, priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
+
+            preparedStmt.setString(1, newIssue.getTitle());
+            preparedStmt.setString(2, newIssue.getSummary());
+            preparedStmt.setInt(3, newIssue.getNumOfForumPosts());
+            preparedStmt.setInt(4, newIssue.getNumOfUserImpacted());
+            preparedStmt.setString(5, newIssue.getContext());
+            preparedStmt.setInt(6, newIssue.getPriority());
+            preparedStmt.setString(7, newIssue.getAssignees().toString());
+            preparedStmt.setString(8, "Pending");
+            preparedStmt.execute();
+
+            preparedStmt.close();
+        } catch (SQLException e) {
+            System.out.println((e.toString()));
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 }

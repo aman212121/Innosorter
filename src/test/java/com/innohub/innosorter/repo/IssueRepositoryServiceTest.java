@@ -7,26 +7,29 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-import com.innohub.innosorter.entity.Administrator;
-import com.innohub.innosorter.entity.Cluster;
-import com.innohub.innosorter.entity.Developer;
-import com.innohub.innosorter.entity.User;
-import com.innohub.innosorter.repo.IssueRepositoryService;
-import com.innohub.innosorter.util.ApplicationConstants;
-
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
+import com.innohub.innosorter.entity.Administrator;
+import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Developer;
+import com.innohub.innosorter.entity.User;
+import com.innohub.innosorter.util.ApplicationConstants;
+
 public class IssueRepositoryServiceTest {
 
-    private IssueRepositoryService issueRepository;
+    private static IssueRepositoryService issueRepository;
 
-    @Before
-    public void SetUp() {
-        issueRepository = new IssueRepositoryServiceImpl();
+    private static Connection mockConnection;
+
+    @BeforeClass
+    public static void SetUp() {
+        mockConnection = Mockito.mock(Connection.class);
+
+        issueRepository = new IssueRepositoryServiceImpl(mockConnection);
     }
 
     @Rule
@@ -604,12 +607,9 @@ public class IssueRepositoryServiceTest {
     public void shouldNewRowIsAddedToClusterTableUponInsert() throws SQLException {
         // Given
         Cluster issue = buildACorrectClusterIssueObject();
-        Connection mockConnection = Mockito.mock(Connection.class);
-        DBConnectionManager mockDbManager = Mockito.mock(DBConnectionManager.class);
         PreparedStatement query = Mockito.mock(PreparedStatement.class);
 
         // And
-        Mockito.doReturn(mockConnection).when(mockDbManager).getConnection();
         Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
 
         // When

@@ -10,7 +10,11 @@ import com.innohub.innosorter.util.ApplicationConstants;
 
 public class IssueManager {
 
-    IssueRepositoryService issueRepositoryService = new IssueRepositoryServiceImpl();
+    IssueRepositoryService issueRepositoryService;
+
+    public IssueManager(IssueRepositoryService issueRepositoryService){
+        this.issueRepositoryService = issueRepositoryService;
+    }
 
     public void addPostToCluser(User user, Cluster clusterOne, Post postOne) {
 

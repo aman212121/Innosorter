@@ -12,6 +12,8 @@ public interface IssueRepositoryService {
 
     void updateClusterIssue(Cluster newIssue);
 
+    void insertCluster(Cluster issue);
+    
     void addPostToCluster(Cluster cluster, Post post);
 
     boolean checkClusterExist(int clusterID);
