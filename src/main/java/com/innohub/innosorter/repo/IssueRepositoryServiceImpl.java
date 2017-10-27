@@ -179,9 +179,12 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     }
 
     @Override
-    public void removePostFromCluster(Cluster cluster, Post post) {
-        // TODO Auto-generated method stub
+    public void removePostFromCluster(Cluster issue, Post post) throws SQLException {
+        PreparedStatement statement = dbConnection.prepareStatement("DELETE FROM CLUSTER_POST WHERE CLUSTER_ID = ? AND POST_ID = ?");
+        statement.setInt(1, issue.getClusterID());
+        statement.setInt(2, post.getPostID());
 
+        statement.execute();
     }
 
     @Override
@@ -244,4 +247,5 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         return false;
 
     }
+
 }

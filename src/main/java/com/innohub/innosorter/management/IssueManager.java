@@ -1,5 +1,7 @@
 package com.innohub.innosorter.management;
 
+import java.sql.SQLException;
+
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Post;
@@ -33,7 +35,7 @@ public class IssueManager {
 
     }
 
-    public void removePostFromCluster(User user, Cluster clusterOne, Post postOne) {
+    public void removePostFromCluster(User user, Cluster clusterOne, Post postOne) throws SQLException {
         if (!(user instanceof Administrator)){
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
         }else {

@@ -4,6 +4,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.SQLException;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -99,7 +101,7 @@ public class IssueManagerTest {
     }
     
     @Test
-    public void shouldNotAllowNonAdminUsersToRemoveAForumPostFromCluster(){
+    public void shouldNotAllowNonAdminUsersToRemoveAForumPostFromCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -198,7 +200,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldAllowAdminUserToRemoveForumPostFromCluster() {
+    public void shouldAllowAdminUserToRemoveForumPostFromCluster() throws SQLException {
         // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -223,7 +225,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldNotAllowAdminUserToRemoveForumPostFromClusterWhenForumPostIsNotInCluster(){
+    public void shouldNotAllowAdminUserToRemoveForumPostFromClusterWhenForumPostIsNotInCluster() throws SQLException{
         // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -249,7 +251,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromCluster(){
+    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -268,7 +270,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldNotAllowAdminUserToRemoveForumPostFromNonexistingCluster(){
+    public void shouldNotAllowAdminUserToRemoveForumPostFromNonexistingCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -286,7 +288,7 @@ public class IssueManagerTest {
     }
     //shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster
     @Test
-    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster(){
+    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
