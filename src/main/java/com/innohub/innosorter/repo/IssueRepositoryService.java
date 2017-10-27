@@ -14,7 +14,7 @@ public interface IssueRepositoryService {
 
     void insertCluster(Cluster issue);
 
-    void addPostToCluster(Cluster cluster, Post post);
+    void addPostToCluster(Integer clusterId, Post post) throws SQLException;
 
     boolean checkClusterExist(int clusterID);
 

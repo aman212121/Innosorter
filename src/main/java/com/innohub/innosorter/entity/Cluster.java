@@ -78,5 +78,9 @@ public class Cluster {
 	public int getClusterID() {
 		return clusterID;
 	}
+
+    public void setClusterID(int id) {
+        this.clusterID = id;
+    }
 	
 }

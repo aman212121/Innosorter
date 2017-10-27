@@ -161,8 +161,21 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     }
 
     @Override
-    public void addPostToCluster(Cluster clusterOne, Post postOne) {
-        // TODO Auto-generated method stub
+    public void addPostToCluster(Integer clusterId, Post post) throws SQLException {
+        String query = "INSERT INTO CLUSTER_POST  (CLUSTER_ID, POST_ID)" + " values (?, ?)";
+
+        PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
+
+        preparedStatement.setInt(1, clusterId);
+        preparedStatement.setInt(2, post.getPostID());
+        preparedStatement.execute();
+
+        preparedStatement.close();
+
+        query = "UPDATE CLUSTER SET NUMBER_OF_FORUM_POSTS = SET NUMBER_OF_FORUM_POSTS + 1 where  CLUSTER_ID = ? ";
+        preparedStatement = dbConnection.prepareStatement(query);
+        preparedStatement.setInt(1, clusterId);
+        preparedStatement.execute();
 
     }
 
@@ -192,7 +205,7 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         try {
             validateCluster(newIssue);
 
-            String query = "INSERT INTO cluster  (title, summary, numofforumposts, numofUserImpacted, context, priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
+            String query = "INSERT INTO CLUSTER  (title, summary, numofforumposts, numofUserImpacted, context, priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
 
             PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
 

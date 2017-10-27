@@ -18,7 +18,7 @@ public class IssueManager {
         this.issueRepositoryService = issueRepositoryService;
     }
 
-    public void addPostToCluser(User user, Cluster clusterOne, Post postOne) {
+    public void addPostToCluser(User user, Cluster clusterOne, Post postOne) throws SQLException {
 
         if (!(user instanceof Administrator)) {
             throw new RuntimeException(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
@@ -31,7 +31,7 @@ public class IssueManager {
                 throw new RuntimeException(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
             }
         }
-        issueRepositoryService.addPostToCluster(clusterOne, postOne);
+        issueRepositoryService.addPostToCluster(clusterOne.getClusterID(), postOne);
 
     }
 

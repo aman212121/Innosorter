@@ -39,7 +39,7 @@ public class IssueManagerTest {
     public ExpectedException expected = ExpectedException.none();
 
     @Test
-    public void shouldAllowAdminUserToAddForumPostToCluster(){
+    public void shouldAllowAdminUserToAddForumPostToCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -55,11 +55,11 @@ public class IssueManagerTest {
         issueManager.addPostToCluser(admin, clusterOne, postOne);
 
         //Then
-        verify(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
+        verify(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
     }
 
     @Test
-    public void shouldAllowAdminUserToAddForumPostThatExistsInOtherClusterIntoCluster(){
+    public void shouldAllowAdminUserToAddForumPostThatExistsInOtherClusterIntoCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Cluster clusterTwo = new Cluster();
@@ -77,12 +77,12 @@ public class IssueManagerTest {
         issueManager.addPostToCluser(admin, clusterTwo, postOne);
 
         //Then
-        verify(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
-        verify(mockIssueRepositoryService).addPostToCluster(clusterTwo, postOne);
+        verify(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
+        verify(mockIssueRepositoryService).addPostToCluster(clusterTwo.getClusterID(), postOne);
     }
 
     @Test
-    public void shouldNotAllowNonAdminUsersToAddAForumPostToACluster(){
+    public void shouldNotAllowNonAdminUsersToAddAForumPostToACluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -118,7 +118,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldNotAllowAdminUserToAddForumPostIntoClusterWhenForumPostIsAlreadyInCluster(){
+    public void shouldNotAllowAdminUserToAddForumPostIntoClusterWhenForumPostIsAlreadyInCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -129,7 +129,7 @@ public class IssueManagerTest {
         when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
         Mockito.doNothing().doThrow(new RuntimeException(ApplicationConstants.CLUSTER_ALREADY_HAS_THE_POST_MSG))
-        .when(mockIssueRepositoryService).addPostToCluster(clusterOne, postOne);
+        .when(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
 
         issueManager.addPostToCluser(admin, clusterOne, postOne);
 
@@ -142,7 +142,7 @@ public class IssueManagerTest {
     }
     
     @Test
-    public void shouldNotAllowAdminUserToAddForumPostIntoNonExistingCluster(){
+    public void shouldNotAllowAdminUserToAddForumPostIntoNonExistingCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -160,7 +160,7 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldNotAllowAdminUserToAddNonexistingForumPostIntoCluster(){
+    public void shouldNotAllowAdminUserToAddNonexistingForumPostIntoCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -179,7 +179,7 @@ public class IssueManagerTest {
     }
     
     @Test
-    public void shouldNotAllowAdminUserToAddNoneexistingForumPostIntoNonexistingCluster(){
+    public void shouldNotAllowAdminUserToAddNoneexistingForumPostIntoNonexistingCluster() throws SQLException{
         //Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();

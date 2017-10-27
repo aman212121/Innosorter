@@ -39,6 +39,7 @@ public class IssueRepositoryServiceTest {
 
     public Cluster buildACorrectClusterIssueObject() {
         Cluster issue = new Cluster();
+        issue.setClusterID(1_000_000);
         issue.setTitle("Error 404");
         issue.setSummary("JavaScript not working");
         issue.setNumOfForumPosts(4);
@@ -701,5 +702,25 @@ public class IssueRepositoryServiceTest {
 
         // Then
         Mockito.verify(query).execute();
+    }
+
+    @Test
+    public void shouldUpdateNumberOfForumPostsInClusterWhenAddForumPostToCluster() throws SQLException{
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        Post postTwo = new Post();
+        issue.setPosts(Arrays.asList(postOne));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.startsWith("INSERT INTO CLUSTER_POST"));
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.startsWith("UPDATE CLUSTER"));
+
+        // When
+        issueRepository.addPostToCluster(issue.getClusterID(), postTwo);
+
+        // Then
+        Mockito.verify(query, Mockito.times(2)).execute();
     }
 }
