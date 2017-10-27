@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.BeforeClass;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Developer;
+import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.util.ApplicationConstants;
 
@@ -29,7 +31,7 @@ public class IssueRepositoryServiceTest {
     public static void SetUp() {
         mockConnection = Mockito.mock(Connection.class);
 
-        issueRepository = new IssueRepositoryServiceImpl(mockConnection);
+        issueRepository = Mockito.spy(new IssueRepositoryServiceImpl(mockConnection));
     }
 
     @Rule
@@ -45,6 +47,7 @@ public class IssueRepositoryServiceTest {
         issue.setContext("CONTEXT123");
         issue.setCurrentStatus("ASSIGNED");
         issue.setPriority(10);
+        issue.setPosts(new ArrayList<Post>());
         return issue;
     }
 
@@ -617,5 +620,41 @@ public class IssueRepositoryServiceTest {
 
         // Then
         Mockito.verify(query).execute();
+    }
+
+    @Test
+    public void shouldNotStoreIssueWhenListOfForumPostIdsAreNull() {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+
+        issue.setPosts(null);
+
+        expected.expect(RuntimeException.class);
+        expected.expectMessage(ApplicationConstants.CLUSTER_FORUM_POSTS_LIST_IS_NULL_MSG);
+
+        // When
+        issueRepository.insertCluster(issue);
+
+    }
+
+    @Test
+    public void shouldCreateNewRowInForumPostMappingTableWhenStoreNewClusterAndMappingAreNotExisitngForGivenForumPostAndCluster() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        issue.setPosts(Arrays.asList(postOne));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue);
+
+        // When
+        issueRepository.insertCluster(issue);
+
+        // Then
+        Mockito.verify(issueRepository).checkClusterPostRelationExist(issue);
+        // execute will be called: n + 1; to add isse(1) + to add posts relations (n)
+        Mockito.verify(query, Mockito.times(issue.getPosts().size() + 1)).execute();
     }
 }

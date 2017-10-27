@@ -72,4 +72,6 @@ public class ApplicationConstants {
     public static final String CLUSTER_DOES_NOT_EXIST_MSG = "This cluster does not exist";
     public static final String CLUSTER_DOES_NOT_HAVE_SUCH_A_POST = "Cluster does not have such a post";
 
+    public static final String CLUSTER_FORUM_POSTS_LIST_IS_NULL_MSG = "Cluster could not have a Null list of posts";
+
 }
