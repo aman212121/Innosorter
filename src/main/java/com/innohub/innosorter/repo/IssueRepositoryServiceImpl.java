@@ -191,32 +191,32 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
             String query = "INSERT INTO cluster  (title, summary, numofforumposts, numofUserImpacted, context, priority,assignees,currentStatus)" + " values (?, ?, ?, ?, ?,?,?,?)";
 
-            PreparedStatement preparedStmt = dbConnection.prepareStatement(query);
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
 
-            preparedStmt.setString(1, newIssue.getTitle());
-            preparedStmt.setString(2, newIssue.getSummary());
-            preparedStmt.setInt(3, newIssue.getNumOfForumPosts());
-            preparedStmt.setInt(4, newIssue.getNumOfUserImpacted());
-            preparedStmt.setString(5, newIssue.getContext());
-            preparedStmt.setInt(6, newIssue.getPriority());
-            preparedStmt.setString(7, newIssue.getAssignees().toString());
-            preparedStmt.setString(8, "Pending");
-            preparedStmt.execute();
+            preparedStatement.setString(1, newIssue.getTitle());
+            preparedStatement.setString(2, newIssue.getSummary());
+            preparedStatement.setInt(3, newIssue.getNumOfForumPosts());
+            preparedStatement.setInt(4, newIssue.getNumOfUserImpacted());
+            preparedStatement.setString(5, newIssue.getContext());
+            preparedStatement.setInt(6, newIssue.getPriority());
+            preparedStatement.setString(7, newIssue.getAssignees().toString());
+            preparedStatement.setString(8, "Pending");
+            preparedStatement.execute();
 
-            preparedStmt.close();
+            preparedStatement.close();
 
             // After inserting cluster, now we should add cluster-post relation to CLUSTER_POST table
             for (Post post : newIssue.getPosts()) {
-                if (!checkClusterPostRelationExist(newIssue)) {
+                if (!checkClusterPostRelationExist(newIssue, post)) {
                     query = "INSERT INTO CLUSTER_POST  (CLUSTER_ID, POST_ID)" + " values (?, ?)";
 
-                    preparedStmt = dbConnection.prepareStatement(query);
+                    preparedStatement = dbConnection.prepareStatement(query);
 
-                    preparedStmt.setInt(1, newIssue.getClusterID());
-                    preparedStmt.setInt(2, post.getPostID());
-                    preparedStmt.execute();
+                    preparedStatement.setInt(1, newIssue.getClusterID());
+                    preparedStatement.setInt(2, post.getPostID());
+                    preparedStatement.execute();
 
-                    preparedStmt.close();
+                    preparedStatement.close();
 
                 }
             }
@@ -228,8 +228,11 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     }
 
     @Override
-    public Boolean checkClusterPostRelationExist(Cluster issue) throws SQLException {
+    public Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException {
         PreparedStatement statement = dbConnection.prepareStatement("SELECT COUNT(*) FROM CLUSTER_POST WHERE CLUSTER_ID = ? AND POST_ID = ?");
+        statement.setInt(1, issue.getClusterID());
+        statement.setInt(2, post.getPostID());
+
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
             statement.close();

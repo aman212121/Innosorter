@@ -647,14 +647,40 @@ public class IssueRepositoryServiceTest {
 
         // And
         Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
-        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue);
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue, postOne);
 
         // When
         issueRepository.insertCluster(issue);
 
         // Then
-        Mockito.verify(issueRepository).checkClusterPostRelationExist(issue);
+        Mockito.verify(issueRepository).checkClusterPostRelationExist(issue, postOne);
         // execute will be called: n + 1; to add isse(1) + to add posts relations (n)
         Mockito.verify(query, Mockito.times(issue.getPosts().size() + 1)).execute();
+    }
+
+    @Test
+    public void shouldNotCreateNewRowInForumPostMappingTableWhenStoreNewClusterAndMappingAreNotExisitngForGivenForumPostAndCluster() throws SQLException {
+        // Given
+        Cluster issue = buildACorrectClusterIssueObject();
+        PreparedStatement query = Mockito.mock(PreparedStatement.class);
+        Post postOne = new Post();
+        Post postTwo = new Post();
+
+        issue.setPosts(Arrays.asList(postOne));
+
+        // And
+        Mockito.doReturn(query).when(mockConnection).prepareStatement(Mockito.anyString());
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue, postOne);
+        Mockito.doReturn(false).when(issueRepository).checkClusterPostRelationExist(issue, postTwo);
+
+        // When
+        issueRepository.insertCluster(issue);
+
+        // Then
+        Mockito.verify(issueRepository).checkClusterPostRelationExist(issue, postOne);
+        Mockito.verify(issueRepository, Mockito.times(0)).checkClusterPostRelationExist(issue, postTwo);
+        // execute will be called: n + 1; to add isse(1) + to add posts relations (n)
+        Mockito.verify(query, Mockito.times(issue.getPosts().size() + 1)).execute();
+
     }
 }

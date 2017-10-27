@@ -24,6 +24,6 @@ public interface IssueRepositoryService {
 
     void removePostFromCluster(Cluster cluster, Post post);
 
-    Boolean checkClusterPostRelationExist(Cluster issue) throws SQLException;
+    Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException;
 
 }
