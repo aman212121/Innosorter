@@ -31,7 +31,7 @@ public class IssueManagerTest {
     private IssueRepositoryService mockIssueRepositoryService;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         initMocks(this);
     }
 
@@ -39,28 +39,28 @@ public class IssueManagerTest {
     public ExpectedException expected = ExpectedException.none();
 
     @Test
-    public void shouldAllowAdminUserToAddForumPostToCluster() throws SQLException{
-        //Given
+    public void shouldAllowAdminUserToAddForumPostToCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
-        //And
+        // And
         Administrator admin = new Administrator("AdminUser");
 
-        //When
+        // When
         issueManager.addPostToCluser(admin, clusterOne, postOne);
 
-        //Then
+        // Then
         verify(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
     }
 
     @Test
-    public void shouldAllowAdminUserToAddForumPostThatExistsInOtherClusterIntoCluster() throws SQLException{
-        //Given
+    public void shouldAllowAdminUserToAddForumPostThatExistsInOtherClusterIntoCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         clusterOne.setClusterID(1000);
         Cluster clusterTwo = new Cluster();
@@ -68,137 +68,136 @@ public class IssueManagerTest {
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterTwo.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
-        //And
+        // And
         issueManager.addPostToCluser(admin, clusterOne, postOne);
 
-        //And
+        // And
         issueManager.addPostToCluser(admin, clusterTwo, postOne);
 
-        //Then
+        // Then
         verify(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
         verify(mockIssueRepositoryService).addPostToCluster(clusterTwo.getClusterID(), postOne);
     }
 
     @Test
-    public void shouldNotAllowNonAdminUsersToAddAForumPostToACluster() throws SQLException{
-        //Given
+    public void shouldNotAllowNonAdminUsersToAddAForumPostToACluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Developer developer = new Developer("DeveloperOne");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
 
-        //When
+        // When
         issueManager.addPostToCluser(developer, clusterOne, postOne);
     }
-    
+
     @Test
-    public void shouldNotAllowNonAdminUsersToRemoveAForumPostFromCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowNonAdminUsersToRemoveAForumPostFromCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.DOES_NOT_PRIVILEGE_MSG);
 
-        //And
+        // And
         Developer developer = new Developer("DeveloperOne");
 
-        //Then
+        // Then
         issueManager.removePostFromCluster(developer, clusterOne, postOne);
     }
 
     @Test
-    public void shouldNotAllowAdminUserToAddForumPostIntoClusterWhenForumPostIsAlreadyInCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToAddForumPostIntoClusterWhenForumPostIsAlreadyInCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
-        Mockito.doNothing().doThrow(new RuntimeException(ApplicationConstants.CLUSTER_ALREADY_HAS_THE_POST_MSG))
-        .when(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
+        Mockito.doNothing().doThrow(new RuntimeException(ApplicationConstants.CLUSTER_ALREADY_HAS_THE_POST_MSG)).when(mockIssueRepositoryService).addPostToCluster(clusterOne.getClusterID(), postOne);
 
         issueManager.addPostToCluser(admin, clusterOne, postOne);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_ALREADY_HAS_THE_POST_MSG);
 
-        //When
+        // When
         issueManager.addPostToCluser(admin, clusterOne, postOne);
     }
-    
+
     @Test
-    public void shouldNotAllowAdminUserToAddForumPostIntoNonExistingCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToAddForumPostIntoNonExistingCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(false);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
 
-        //When
+        // When
         issueManager.addPostToCluser(admin, clusterOne, postOne);
     }
 
     @Test
-    public void shouldNotAllowAdminUserToAddNonexistingForumPostIntoCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToAddNonexistingForumPostIntoCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(false);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
 
-        //When
+        // When
         issueManager.addPostToCluser(admin, clusterOne, postOne);
     }
-    
+
     @Test
-    public void shouldNotAllowAdminUserToAddNoneexistingForumPostIntoNonexistingCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToAddNoneexistingForumPostIntoNonexistingCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(false);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(false);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
-        
-        //And (because this condition fires first)
+
+        // And (because this condition fires first)
         expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
 
-        //When
+        // When
         issueManager.addPostToCluser(admin, clusterOne, postOne);
     }
 
@@ -223,12 +222,12 @@ public class IssueManagerTest {
     }
 
     @Test
-    public void shouldAllowAdminUserToRemoveForumPostFromClusterThatExistInMoreThanOneCluster(){
-        // find 
+    public void shouldAllowAdminUserToRemoveForumPostFromClusterThatExistInMoreThanOneCluster() {
+        // find
     }
 
     @Test
-    public void shouldNotAllowAdminUserToRemoveForumPostFromClusterWhenForumPostIsNotInCluster() throws SQLException{
+    public void shouldNotAllowAdminUserToRemoveForumPostFromClusterWhenForumPostIsNotInCluster() throws SQLException {
         // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
@@ -238,77 +237,93 @@ public class IssueManagerTest {
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(true);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
-        //And (Should be JDBC exception)
+        // And (Should be JDBC exception)
         expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_HAVE_SUCH_A_POST);
 
-        //And
+        // And
         Mockito.doThrow(new RuntimeException(ApplicationConstants.CLUSTER_DOES_NOT_HAVE_SUCH_A_POST)).when(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);
 
         // When
         issueManager.removePostFromCluster(admin, clusterOne, postOne);
 
         // Then
-        verify(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);        
+        verify(mockIssueRepositoryService).removePostFromCluster(clusterOne, postOne);
     }
 
     @Test
-    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(true);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(false);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.FORUM_POST_DOES_NOT_EXSIST_MSG);
 
-        //When
+        // When
         issueManager.removePostFromCluster(admin, clusterOne, postOne);
     }
 
     @Test
-    public void shouldNotAllowAdminUserToRemoveForumPostFromNonexistingCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToRemoveForumPostFromNonexistingCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(false);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
         expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
 
-        //When
+        // When
         issueManager.removePostFromCluster(admin, clusterOne, postOne);
     }
-    //shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster
+
     @Test
-    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster() throws SQLException{
-        //Given
+    public void shouldNotAllowAdminUserToRemoveNonexistingForumPostFromNonexistingCluster() throws SQLException {
+        // Given
         Cluster clusterOne = new Cluster();
         Post postOne = new Post();
         Administrator admin = new Administrator("AdminUser");
 
-        //And
+        // And
         Mockito.when(mockIssueRepositoryService.checkClusterExist(clusterOne.getClusterID())).thenReturn(false);
         Mockito.when(mockIssueRepositoryService.checkPostExist(postOne.getPostID())).thenReturn(false);
 
-        //And
+        // And
         expected.expect(RuntimeException.class);
-        
-        //And (because this condition fires first)
+
+        // And (because this condition fires first)
         expected.expectMessage(ApplicationConstants.CLUSTER_DOES_NOT_EXSIST_MSG);
 
-        //When
+        // When
         issueManager.removePostFromCluster(admin, clusterOne, postOne);
+    }
+
+    @Test
+    public void shouldAllowAdminUserToAssingIssueToDeveloperUser() throws SQLException {
+        // Given
+        Cluster issueOne = new Cluster();
+        Developer developer = new Developer("DeveloperOne");
+
+        // And
+        Mockito.doNothing().when(mockIssueRepositoryService).assignIssueToUser(issueOne.getClusterID(), developer.getUserId());
+
+        // When
+        issueManager.assignIssueToUser(issueOne.getClusterID(), developer.getUserId());
+
+        // Then
+        Mockito.verify(mockIssueRepositoryService).assignIssueToUser(issueOne.getClusterID(), developer.getUserId());
     }
 
 }

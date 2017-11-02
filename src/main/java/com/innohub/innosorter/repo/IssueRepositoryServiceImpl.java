@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
+import com.innohub.innosorter.entity.Developer;
 import com.innohub.innosorter.entity.User;
 import com.innohub.innosorter.entity.Post;
 import com.innohub.innosorter.repo.IssueRepositoryService;
@@ -266,6 +267,12 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
     public List<Cluster> getListOfClusters() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void assignIssueToUser(Integer clusterId, String string) {
+        // TODO Auto-generated method stub
+
     }
 
 }
