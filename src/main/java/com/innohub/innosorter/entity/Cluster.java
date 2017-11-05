@@ -13,8 +13,14 @@ public class Cluster {
 	List<User> assignees;
 	List<Post> posts;
 	String currentStatus;
-      boolean isClusterExsist;
-      int clusterID;
+    boolean isClusterExsist;
+    int clusterID;
+
+	public Cluster(int id) {
+	        this.clusterID = id;
+	}
+	
+	public Cluster() {}
 
 	public List<Post> getPosts() {
 		return posts;
@@ -82,5 +88,9 @@ public class Cluster {
     public void setClusterID(int id) {
         this.clusterID = id;
     }
+
+	public void addForumPost(Post post) {
+		posts.add(post);
+	}
 	
 }

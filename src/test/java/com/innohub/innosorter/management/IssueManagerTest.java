@@ -3,18 +3,14 @@ package com.innohub.innosorter.management;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.sql.SQLException;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.omg.CORBA.portable.ApplicationException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import com.innohub.innosorter.entity.Administrator;
 import com.innohub.innosorter.entity.Cluster;
 import com.innohub.innosorter.entity.Developer;

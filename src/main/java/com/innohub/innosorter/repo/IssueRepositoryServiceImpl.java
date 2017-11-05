@@ -162,7 +162,6 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         }
     }
 
-    @Override
     public void addPostToCluster(Integer clusterId, Post post) throws SQLException {
         String query = "INSERT INTO CLUSTER_POST  (CLUSTER_ID, POST_ID)" + " values (?, ?)";
 
@@ -181,19 +180,16 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
     }
 
-    @Override
     public boolean checkClusterExist(int clusterID) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean checkPostExist(int postID) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public void removePostFromCluster(Cluster issue, Post post) throws SQLException {
         PreparedStatement statement = dbConnection.prepareStatement("DELETE FROM CLUSTER_POST WHERE CLUSTER_ID = ? AND POST_ID = ?");
         statement.setInt(1, issue.getClusterID());
@@ -202,7 +198,6 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
         statement.execute();
     }
 
-    @Override
     public void insertCluster(Cluster newIssue) {
         try {
             validateCluster(newIssue);
@@ -245,7 +240,6 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
     }
 
-    @Override
     public Boolean checkClusterPostRelationExist(Cluster issue, Post post) throws SQLException {
         PreparedStatement statement = dbConnection.prepareStatement("SELECT COUNT(*) FROM CLUSTER_POST WHERE CLUSTER_ID = ? AND POST_ID = ?");
         statement.setInt(1, issue.getClusterID());
@@ -263,13 +257,11 @@ public class IssueRepositoryServiceImpl implements IssueRepositoryService {
 
     }
 
-    @Override
     public List<Cluster> getListOfClusters() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public void assignIssueToUser(Integer clusterId, String string) {
         // TODO Auto-generated method stub
 

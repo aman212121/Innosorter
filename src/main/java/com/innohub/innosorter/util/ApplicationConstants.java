@@ -74,4 +74,10 @@ public class ApplicationConstants {
 
     public static final String CLUSTER_FORUM_POSTS_LIST_IS_NULL_MSG = "Cluster could not have a Null list of posts";
 
+	public static final String CLUSTER_HAVE_NO_FORUM_POSTS_MSG = "Cluster doesn't contain any forum posts";
+	public static final String FORUM_POST_HAVE_NO_CLUSTER_ASSIGNED_MSG = "Forum post isn't assigned to any cluster";
+	public static final String CLUSTER_TITLE_IS_NULL_MSG = "Cluster title can't be null";
+	public static final String CLUSTER_TITLE_IS_EMPTY_MSG = "Cluster title can't be empty";
+	
+
 }
